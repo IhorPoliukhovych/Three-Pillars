@@ -1,0 +1,1238 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Three Pillars of Society: an entertainment pilot project that places 300+ jobs from the military, state and commerce on one status ladder. Compare up to three people.">
+<meta property="og:title" content="Three Pillars of Society">
+<meta property="og:description" content="Where do you stand on the social ladder? Military, state and commerce on one scale.">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:14px}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>Three Pillars of Society</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+/* Layout: sticky header with tabs → three person cards → tab body (map+ladder | ranking | career sim | about) */
+:root{
+  --bg:#f3f4fa; --surface:#ffffff; --sunk:#f0f2f8; --ink:#11142a; --muted:#5b6280; --faint:#9aa0b8; --line:#e1e4ef;
+  --army:#4f7d1f; --state:#2557c7; --biz:#c26a12; --ext:#8b5cd6; --star:#d4a106;
+  --pa:#ec2f5b; --pb:#0aa2c8; --pc:#12a36b;
+  --k0:#7c8399; --k1:#2f9e8f; --k2:#3478d6; --k3:#6c4fd6; --k4:#c2389b; --k5:#e0662a; --k6:#c99a06;
+  --f-display:"Unbounded","Arial Black",system-ui,sans-serif;
+  --f-body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --shadow:0 1px 2px rgba(17,20,42,.05),0 8px 24px rgba(17,20,42,.06);
+  --glow:radial-gradient(900px 300px at 10% -10%,rgba(236,47,91,.10),transparent 60%),radial-gradient(800px 300px at 60% -20%,rgba(10,162,200,.10),transparent 60%),radial-gradient(700px 300px at 100% 0%,rgba(18,163,107,.10),transparent 60%);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0b0d18; --surface:#141729; --sunk:#0f1222; --ink:#eceefb; --muted:#9ba1c0; --faint:#5d6383; --line:#242842;
+  --army:#97c55a; --state:#6d9bff; --biz:#f39a3d; --ext:#b494ff; --star:#ffd23f;
+  --pa:#ff5c80; --pb:#33cdf0; --pc:#3fe0a0;
+  --k0:#9aa1b8; --k1:#4fd1bf; --k2:#69a5ff; --k3:#9f87ff; --k4:#f06bc8; --k5:#ff8f57; --k6:#ffd23f;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35);
+  --glow:radial-gradient(900px 300px at 10% -10%,rgba(255,92,128,.16),transparent 60%),radial-gradient(800px 300px at 60% -20%,rgba(51,205,240,.13),transparent 60%),radial-gradient(700px 300px at 100% 0%,rgba(63,224,160,.12),transparent 60%);
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0b0d18; --surface:#141729; --sunk:#0f1222; --ink:#eceefb; --muted:#9ba1c0; --faint:#5d6383; --line:#242842;
+  --army:#97c55a; --state:#6d9bff; --biz:#f39a3d; --ext:#b494ff; --star:#ffd23f;
+  --pa:#ff5c80; --pb:#33cdf0; --pc:#3fe0a0;
+  --k0:#9aa1b8; --k1:#4fd1bf; --k2:#69a5ff; --k3:#9f87ff; --k4:#f06bc8; --k5:#ff8f57; --k6:#ffd23f;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35);
+  --glow:radial-gradient(900px 300px at 10% -10%,rgba(255,92,128,.16),transparent 60%),radial-gradient(800px 300px at 60% -20%,rgba(51,205,240,.13),transparent 60%),radial-gradient(700px 300px at 100% 0%,rgba(63,224,160,.12),transparent 60%);
+  color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);background-image:var(--glow);background-repeat:no-repeat;color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.5}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:4px}
+.gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.inner{max-width:1480px;margin:0 auto}
+
+/* header */
+.hdr{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.hdr .inner{display:flex;flex-wrap:wrap;align-items:center;gap:10px 20px;padding-block:10px}
+.logo{display:flex;align-items:center;gap:10px;min-width:0}
+.logo svg{flex:none}
+.logo b{font:800 15px var(--f-display);letter-spacing:-.01em;white-space:nowrap}
+nav.tabs{display:flex;gap:4px;flex:1;overflow-x:auto;scrollbar-width:none}
+nav.tabs button{border:0;background:transparent;padding:8px 14px;border-radius:999px;cursor:pointer;font-weight:700;color:var(--muted);white-space:nowrap}
+nav.tabs button:hover{color:var(--ink)}
+nav.tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg)}
+.seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px;gap:2px}
+.seg button{border:0;background:transparent;padding:5px 12px;border-radius:999px;cursor:pointer;font-weight:700;font-size:12.5px;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--sunk);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+.right{display:flex;gap:8px;flex-wrap:wrap}
+
+main{display:flex;flex-direction:column;gap:16px;padding-block:18px 48px}
+.intro{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:10px 24px}
+h1{font:800 clamp(22px,3.2vw,36px)/1.1 var(--f-display);margin:0;letter-spacing:-.02em;text-wrap:balance}
+h1 em{font-style:normal;background:linear-gradient(90deg,var(--army),var(--state),var(--biz),var(--ext));-webkit-background-clip:text;background-clip:text;color:transparent}
+.intro p{margin:4px 0 0;color:var(--muted);max-width:72ch}
+
+/* person cards */
+.people{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:1000px){.people{grid-template-columns:1fr}}
+.pcard{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow);position:relative;min-width:0}
+.pcard:focus-within{z-index:5}
+.pcard::before{content:"";position:absolute;inset:0 0 auto 0;height:70px;border-radius:18px 18px 0 0;background:linear-gradient(135deg,color-mix(in srgb,var(--pcol) 22%,transparent),transparent 70%);pointer-events:none}
+.phead{display:flex;align-items:center;gap:10px;position:relative}
+.badge{flex:none;width:34px;height:34px;border-radius:11px;display:grid;place-items:center;font:800 14px var(--f-display);color:#fff;background:var(--pcol);box-shadow:0 4px 12px color-mix(in srgb,var(--pcol) 40%,transparent)}
+.pname{flex:1;min-width:0;border:1px solid transparent;background:transparent;font:800 17px var(--f-body);color:var(--ink);padding:3px 6px;border-radius:8px}
+.pname:hover,.pname:focus{border-color:var(--line);background:var(--surface);outline:none}
+.pscore{text-align:right;line-height:1}
+.pscore b{font:800 30px var(--f-display);color:var(--pcol)}
+.pscore small{display:block;font-size:10.5px;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:.08em}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:8px;position:relative}
+.fields .full{grid-column:1/-1}
+.flabel{font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-weight:800;margin-bottom:3px;display:flex;justify-content:space-between;gap:6px}
+.flabel button{border:0;background:none;color:var(--pcol);font-size:10px;font-weight:800;cursor:pointer;padding:0;letter-spacing:.06em;text-transform:uppercase}
+.combo{position:relative}
+.inp,.combo input{width:100%;font:inherit;font-weight:600;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--sunk);color:var(--ink);min-width:0}
+.inp:focus,.combo input:focus{border-color:var(--pcol);outline:none;background:var(--surface);box-shadow:0 0 0 3px color-mix(in srgb,var(--pcol) 18%,transparent)}
+.inp.over{border-color:var(--pcol);background:color-mix(in srgb,var(--pcol) 8%,var(--surface))}
+.combo ul{position:absolute;z-index:50;left:0;right:0;top:calc(100% + 4px);margin:0;padding:4px;list-style:none;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);max-height:min(320px,50vh);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.combo li{padding:7px 9px;border-radius:8px;cursor:pointer;display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:13.5px}
+.combo li span{min-width:0}
+.combo li small{color:var(--muted);font-size:11px;white-space:nowrap;font-family:var(--f-mono)}
+.combo li.act{background:var(--sunk)}
+.combo li.empty{color:var(--muted);cursor:default}
+.combo li i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:7px}
+.pfoot{display:flex;flex-direction:column;gap:6px}
+.pctbar{height:8px;border-radius:99px;background:var(--sunk);overflow:hidden;box-shadow:inset 0 0 0 1px var(--line)}
+.pctbar span{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,color-mix(in srgb,var(--pcol) 35%,transparent),var(--pcol));transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.pmeta{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12.5px;color:var(--muted)}
+.pmeta b{color:var(--ink)}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700}
+.chip i{width:9px;height:9px;border-radius:3px;display:inline-block}
+
+/* panels */
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) 370px;gap:16px;align-items:start}
+@media (max-width:1180px){.grid2{grid-template-columns:1fr}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);min-width:0}
+.ptool{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px 18px;padding:12px 16px;border-bottom:1px solid var(--line)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px}
+.ctrls{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;font-size:12.5px;color:var(--muted);font-weight:600}
+.ctrls input[type=range]{width:120px;accent-color:var(--ink);vertical-align:middle}
+.tgl{display:inline-flex;align-items:center;gap:7px;cursor:pointer}
+.tgl input{accent-color:var(--star);width:16px;height:16px}
+.chart{position:relative;overflow-x:auto}
+.chart svg{display:block;width:100%;height:auto}
+.mapv{display:flex;flex-direction:column;gap:16px}
+.below{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:16px;align-items:start}
+@media (max-width:1100px){.below{grid-template-columns:1fr}}
+.below .panel{padding:16px;display:flex;flex-direction:column;gap:12px}
+.cln{font-family:var(--f-body);font-weight:800;letter-spacing:.02em}
+.clr{font-family:var(--f-mono);font-weight:500;font-size:10.5px;fill:var(--muted)}
+.focus{display:flex;gap:6px;overflow-x:auto;width:100%;scrollbar-width:none}
+.focus button{flex:none;border:1px solid var(--line);background:var(--sunk);border-radius:999px;padding:6px 12px;font-weight:700;font-size:12.5px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.focus button i{width:9px;height:9px;border-radius:3px}
+.focus button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.clchip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;color:var(--kc);background:color-mix(in srgb,var(--kc) 13%,transparent);padding:2px 9px;border-radius:999px}
+.cscroll{overflow-x:auto}
+.ctab{min-width:560px;font-size:13px}
+.ctab th[scope=row]{position:static;text-transform:none;letter-spacing:0;font-size:12.5px;font-weight:700;color:var(--muted);width:24%;background:transparent}
+.ctab thead th{font-size:13px;text-transform:none;letter-spacing:0;color:var(--ink);font-weight:800}
+.ctab thead th .dotb{display:inline-grid;vertical-align:middle;margin-right:4px}
+.ctab td{vertical-align:top;line-height:1.35}
+.cmut{color:var(--muted);font-size:12px}
+.split{display:flex;height:10px;border-radius:99px;overflow:hidden;background:var(--sunk);min-width:120px}
+.split span{display:block;height:100%}
+.gl{stroke:var(--line)}
+.gt{fill:var(--faint);font:10.5px var(--f-mono)}
+.ptitle{font:800 13px var(--f-display);letter-spacing:.06em}
+.psub{fill:var(--muted);font:10.5px var(--f-mono)}
+.lbl{fill:var(--muted);font:500 11px var(--f-body);cursor:pointer}
+.lbl:hover{fill:var(--ink)}
+.lbl.hl{font-weight:800}
+.lbl.fam{fill:var(--ink);font-weight:800}
+.hit{fill:transparent;cursor:pointer}
+.pm{transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.pm text{font:800 11px var(--f-display);fill:#fff}
+.tip{position:absolute;z-index:30;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:12px 14px;min-width:220px;max-width:280px;pointer-events:none;font-size:13px}
+.tip.pin{pointer-events:auto}
+.tip h4{margin:0 0 2px;font-size:14.5px;line-height:1.3}
+.tip .sub{color:var(--muted);font-size:12px}
+.tip .row{display:flex;gap:14px;margin-top:8px;font-family:var(--f-mono);font-size:12px}
+.tip .cmprow{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:8px;align-items:center;padding:4px 0;font-size:12.5px}
+.tip .cmprow .nm{min-width:0;font-weight:700}
+.tip .cmprow .nm small{display:block;font-weight:500;color:var(--muted);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tip .assign{display:flex;gap:6px;margin-top:8px}
+.tip .assign button{flex:1;border:0;border-radius:8px;padding:6px;color:#fff;font-weight:800;cursor:pointer}
+
+/* ladder */
+.eyebrow{font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:800;margin:0}
+.pchips{display:flex;gap:6px}
+.pchips button{flex:1;border:1px solid var(--line);background:var(--sunk);border-radius:10px;padding:6px 8px;cursor:pointer;font-weight:800;display:flex;align-items:center;gap:6px;min-width:0}
+.pchips button span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pchips button[aria-pressed="true"]{background:var(--surface);border-color:var(--pcol);box-shadow:0 0 0 3px color-mix(in srgb,var(--pcol) 18%,transparent)}
+.dotb{width:18px;height:18px;border-radius:6px;flex:none;display:grid;place-items:center;color:#fff;font:800 10px var(--f-display);background:var(--pcol)}
+.ladder{display:flex;flex-direction:column;gap:3px}
+.rung{display:grid;grid-template-columns:4px minmax(0,1fr) auto;gap:10px;align-items:center;padding:6px 8px;border-radius:10px;font-size:13px}
+.rung:hover{background:var(--sunk)}
+.rung>i{align-self:stretch;border-radius:2px}
+.rung span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rung span small{color:var(--muted);font-size:11.5px}
+.rung em{font-style:normal;font-family:var(--f-mono);font-size:11.5px;padding:2px 7px;border-radius:99px;background:var(--sunk);white-space:nowrap}
+.rung.me{background:color-mix(in srgb,var(--pcol) 14%,var(--surface));font-weight:800;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--pcol) 45%,transparent)}
+.rung.me em{background:var(--pcol);color:#fff}
+.shelf{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.shelf div{border:1px solid var(--line);border-radius:12px;padding:8px 10px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.shelf b{font-size:12.5px;line-height:1.3}
+.shelf small{color:var(--muted);font-size:11px;font-family:var(--f-mono)}
+.shelf .pt{font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:800}
+
+/* ranking */
+.rk{padding:12px 16px 16px;display:flex;flex-direction:column;gap:10px}
+.rk .bar1{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.rk input[type=search]{flex:1;min-width:200px;max-width:380px}
+.fchip{border:1px solid var(--line);background:var(--sunk);border-radius:999px;padding:5px 12px;cursor:pointer;font-weight:700;font-size:12.5px;display:inline-flex;align-items:center;gap:6px}
+.fchip[aria-pressed="false"]{opacity:.45}
+.tscroll{overflow:auto;max-height:calc(100vh - 220px)}
+table{width:100%;border-collapse:collapse;min-width:760px;font-size:13px}
+th{position:sticky;top:0;background:var(--surface);text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);padding:8px 6px;border-bottom:1px solid var(--line);z-index:1}
+td{padding:7px 6px;border-bottom:1px solid var(--line);vertical-align:middle}
+td.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.hitrow td{background:color-mix(in srgb,var(--pcol) 10%,var(--surface))}
+.bar{height:7px;border-radius:99px;background:var(--sunk);position:relative;min-width:90px}
+.bar span{position:absolute;inset:0 auto 0 0;border-radius:99px}
+.ptag{display:inline-grid;place-items:center;width:19px;height:19px;border-radius:6px;color:#fff;font:800 10px var(--f-display);margin-right:4px;vertical-align:middle}
+
+/* career */
+.sim{display:grid;grid-template-columns:340px minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:900px){.sim{grid-template-columns:1fr}}
+.sim .panel{padding:16px;display:flex;flex-direction:column;gap:14px}
+.quick{display:flex;flex-wrap:wrap;gap:6px}
+.quick button{border:1px solid var(--line);background:var(--sunk);border-radius:999px;padding:5px 10px;font-size:12px;font-weight:700;cursor:pointer;text-align:left}
+.quick button:hover{border-color:var(--pcol)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+.kpi{border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:2px;background:var(--sunk)}
+.kpi b{font:800 22px var(--f-display);line-height:1.15}
+.kpi small{color:var(--muted);font-size:12px}
+.path{display:flex;flex-direction:column;gap:0;position:relative}
+.step{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:12px;align-items:center;padding:8px 0;position:relative}
+.step::before{content:"";position:absolute;left:13px;top:0;bottom:0;width:2px;background:var(--line)}
+.step:first-child::before{top:50%}.step:last-child::before{bottom:50%}
+.step .nd{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font:800 11px var(--f-mono);color:#fff;position:relative;z-index:1}
+.step b{font-size:14px}
+.step small{color:var(--muted);font-size:12px;display:block}
+.step em{font-style:normal;font-family:var(--f-mono);font-size:12px;color:var(--muted);white-space:nowrap}
+.note{color:var(--muted);font-size:13px;margin:0}
+
+/* about */
+.disc{grid-column:1/-1;border:1px solid color-mix(in srgb,var(--k6) 50%,var(--line));background:color-mix(in srgb,var(--k6) 8%,var(--surface));border-radius:14px;padding:16px 18px}
+.disc p{color:var(--ink)!important}
+.sitefoot{padding-block:0 32px}
+.sitefoot p{margin:0;color:var(--muted);font-size:12.5px;border-top:1px solid var(--line);padding-top:14px}
+.wctl{flex-basis:100%;display:flex;flex-direction:column;gap:8px;padding-top:10px;border-top:1px dashed var(--line)}
+.wrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}
+.wpre{display:flex;flex-wrap:wrap;gap:6px}
+.wpre button{border:1px solid var(--line);background:var(--sunk);border-radius:999px;padding:5px 11px;font-size:12.5px;font-weight:700;cursor:pointer;color:var(--muted)}
+.wpre button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.wslide{display:flex;align-items:center;gap:10px;font-size:12.5px;font-weight:800;color:var(--muted);max-width:520px}
+.wslide input{flex:1;accent-color:var(--ink)}
+.wf{display:flex;flex-direction:column;gap:3px;font-size:13px}
+.wex{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px}
+.wex .dotb{display:inline-grid}
+.about{padding:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.about section{display:flex;flex-direction:column;gap:6px}
+.about h3{margin:0;font:700 15px var(--f-display)}
+.about p{margin:0;color:var(--muted);max-width:68ch}
+@media (prefers-reduced-motion:reduce){.pm,.pctbar span{transition:none}}
+</style>
+</head>
+<body>
+
+
+<header class="hdr gut">
+  <div class="inner">
+    <div class="logo"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect x="2" y="8" width="5" height="16" rx="2.5" fill="var(--army)"/><rect x="10.5" y="3" width="5" height="21" rx="2.5" fill="var(--state)"/><rect x="19" y="1" width="5" height="23" rx="2.5" fill="var(--biz)"/></svg><b id="t-logo"></b></div>
+    <nav class="tabs" role="tablist" id="tabs">
+      <button role="tab" data-tab="map"></button><button role="tab" data-tab="rank"></button><button role="tab" data-tab="career"></button><button role="tab" data-tab="about"></button>
+    </nav>
+    <div class="right">
+      <div class="seg" id="segCountry" role="group"><button data-v="us"></button><button data-v="ua"></button></div>
+      <div class="seg" id="segLang" role="group"><button data-v="uk">УКР</button><button data-v="en">ENG</button></div>
+    </div>
+  </div>
+</header>
+
+<main class="gut"><div class="inner" style="display:flex;flex-direction:column;gap:16px">
+  <div class="intro"><div><h1 id="t-h1"></h1><p id="t-lede"></p></div></div>
+  <section class="people" id="people"></section>
+
+  <section id="v-map" class="mapv">
+    <div class="panel">
+      <div class="ptool">
+        <div class="legend" id="legend"></div>
+        <div class="ctrls">
+          <label class="tgl"><input type="checkbox" id="famT"><span id="t-fam"></span></label>
+        </div>
+        <div class="wctl">
+          <div class="wrow"><span class="eyebrow" id="t-wq"></span><div class="wpre" id="wpre"></div></div>
+          <div class="wslide"><span id="t-power"></span><input id="w" type="range" min="0" max="100" step="5" aria-label="weight"><span id="t-money"></span></div>
+          <div class="wf" id="wf"></div>
+        </div>
+        <div class="focus" id="focus" hidden></div>
+      </div>
+      <div class="chart" id="chartBox"><svg id="chart" role="img"><defs id="defs"></defs><g id="lb"></g><g id="lp"></g></svg><div class="tip" id="tip" hidden></div></div>
+    </div>
+    <div class="below">
+      <section class="panel cmpp" id="cmp"></section>
+      <section class="panel lad" id="ladder"></section>
+    </div>
+  </section>
+
+  <section id="v-rank" class="panel" hidden>
+    <div class="rk">
+      <div class="bar1"><input class="inp" id="q" type="search" style="--pcol:var(--ink)"><div id="pf" style="display:flex;gap:6px;flex-wrap:wrap"></div></div>
+      <div class="tscroll"><table><thead id="thead"></thead><tbody id="tbody"></tbody></table></div>
+    </div>
+  </section>
+
+  <section id="v-career" class="sim" hidden>
+    <div class="panel" id="simCtl"></div>
+    <div class="panel" id="simOut"></div>
+  </section>
+
+  <section id="v-about" class="panel about" hidden></section>
+</div></main>
+<footer class="gut sitefoot"><div class="inner"><p id="fdisc"></p></div></footer>
+
+<script>
+/* ===== DATA =====
+ Item: [uk, en, US $/year, UA ₴/month, power 0–100, US workers (thousands), UA workers (thousands)]
+ null income = role doesn't exist in that country. Worker counts are rough and used only for "% of people". */
+const DATA=[
+{k:"army",p:"army",n:["Армія","Armed forces"],it:[
+["Рядовий / солдат","Private / soldier",38000,20000,3,250,300],
+["Старший солдат / спеціаліст","Specialist / senior soldier",55000,21000,8,300,150],
+["Солдат на передовій (з бойовими)","Frontline soldier (combat pay)",null,120000,6,0,200],
+["Сержант","Sergeant",65000,23000,14,220,80],
+["Старший сержант","Staff sergeant",75000,25000,18,170,50],
+["Майстер-сержант","Sergeant first class",85000,27000,22,100,30],
+["Головний майстер-сержант","Sergeant major",118000,32000,32,15,5],
+["Уорент-офіцер","Warrant officer",88000,null,22,20,0],
+["Молодший лейтенант","Second lieutenant",70000,24000,20,25,15],
+["Лейтенант","First lieutenant",82000,25000,24,30,25],
+["Капітан","Captain",102000,28000,32,70,15],
+["Майор","Major",122000,31000,40,45,8],
+["Підполковник","Lieutenant colonel",148000,35000,50,30,4],
+["Полковник","Colonel",172000,40000,58,12,1.5],
+["Бригадний генерал","Brigadier general",210000,48000,68,.4,.1],
+["Генерал-майор","Major general",232000,53000,74,.3,.05],
+["Генерал-лейтенант","Lieutenant general",248000,58000,80,.15,.03],
+["Генерал (4 зірки)","General (4-star)",262000,65000,86,.04,.01],
+["Голова Об'єднаного комітету НШ","Chairman of the Joint Chiefs",275000,null,90,.001,0],
+["Головнокомандувач ЗСУ","Commander-in-Chief of the AFU",null,90000,92,0,.001]]},
+{k:"school",p:"state",n:["Державна школа","Public school"],it:[
+["Прибиральник у школі","School custodian",36000,8700,1,400,120],
+["Помічник вчителя / асистент","Teacher aide",35000,9500,4,1300,30],
+["Водій шкільного автобуса","School bus driver",45000,15000,4,500,10],
+["Шкільний бібліотекар","School librarian",65000,9000,8,130,15],
+["Шкільний психолог","School counselor",65000,12000,14,300,20],
+["Вчитель","Teacher",70000,16000,20,3800,420],
+["Вчитель інклюзивного класу","Special education teacher",72000,17000,20,450,20],
+["Заступник директора школи","Assistant principal",105000,18000,34,100,25],
+["Директор школи","Principal",125000,23000,42,90,14],
+["Начальник управління освіти","School district superintendent",220000,35000,56,13,1]]},
+{k:"uni",p:"state",n:["Державний університет","Public university"],it:[
+["Асистент кафедри","Teaching assistant",30000,12000,4,130,15],
+["Викладач","Lecturer",65000,15000,12,400,30],
+["Доцент","Assistant professor",95000,20000,20,200,25],
+["Професор","Full professor",140000,28000,36,200,10],
+["Декан","Dean",280000,40000,50,10,2],
+["Ректор","University president",900000,80000,62,4,.4]]},
+{k:"hospital",p:"state",n:["Державна лікарня","Public hospital"],it:[
+["Санітар","Hospital orderly",38000,9000,1,400,100],
+["Фельдшер / парамедик","Paramedic",52000,16000,14,270,40],
+["Медсестра","Registered nurse",90000,14000,20,3300,250],
+["Лікар-інтерн / резидент","Resident physician",68000,13000,14,150,15],
+["Лікар","Physician",260000,22000,42,800,120],
+["Хірург","Surgeon",420000,30000,46,50,20],
+["Головний лікар","Hospital director",500000,50000,60,6,3]]},
+{k:"police",p:"state",n:["Поліція і безпека","Police & security"],it:[
+["Патрульний поліцейський","Patrol officer",78000,25000,22,650,100],
+["Дільничний / слідчий","Detective",100000,28000,30,110,30],
+["Сержант поліції","Police sergeant",105000,null,32,80,0],
+["Лейтенант поліції","Police lieutenant",125000,null,40,30,0],
+["Начальник відділку поліції","Precinct commander",145000,40000,46,10,5],
+["Агент ФБР","FBI special agent",110000,null,30,14,0],
+["Детектив НАБУ","NABU detective",null,70000,34,0,.7],
+["Начальник поліції області / мегаполіса","Big-city police chief",235000,70000,62,.1,.03],
+["Директор ФБР","FBI director",235000,null,80,.001,0],
+["Голова Нацполіції","Head of National Police",null,100000,80,0,.001]]},
+{k:"city",p:"state",n:["Муніципалітет і держслужба","City & civil service"],it:[
+["Двірник, прибирання вулиць","Street sweeper",42000,10000,2,100,80],
+["Листоноша","Mail carrier",58000,10000,6,340,30],
+["Діловод / клерк","Government clerk",45000,13000,6,1500,150],
+["Соціальний працівник","Social worker",58000,11000,12,750,60],
+["Пожежник / рятувальник","Firefighter",65000,22000,16,330,50],
+["Інспектор (будівельний, податковий)","Inspector",70000,18000,18,120,40],
+["Держслужбовець середньої ланки","Mid-level civil servant",85000,25000,20,2500,150],
+["Начальник департаменту","Department head",160000,45000,44,100,10],
+["Мер невеликого міста","Small-town mayor",90000,35000,44,19,1.5],
+["Мер мегаполіса","Big-city mayor",258000,60000,72,.01,.01]]},
+{k:"courts",p:"state",n:["Суди і прокуратура","Courts & prosecution"],it:[
+["Секретар суду","Court clerk",50000,13000,8,150,20],
+["Державний захисник","Public defender",90000,25000,20,15,3],
+["Прокурор","Prosecutor",110000,50000,38,35,10],
+["Суддя першої інстанції","Trial court judge",185000,90000,60,30,5],
+["Суддя апеляційного / федерального суду","Federal / appellate judge",250000,150000,72,1.5,1],
+["Суддя Верховного суду","Supreme Court justice",300000,300000,90,.009,.2]]},
+{k:"politics",p:"state",n:["Політика і влада","Politics & government"],it:[
+["Член міської ради","City council member",45000,null,34,140,0],
+["Депутат законодавчих зборів штату","State legislator",80000,null,42,7.4,0],
+["Народний депутат","Member of Parliament",null,50000,70,0,.4],
+["Конгресмен","Congressman",174000,null,76,.435,0],
+["Голова обласної адміністрації","Regional governor",null,45000,74,0,.025],
+["Губернатор","Governor",225000,null,80,.05,0],
+["Сенатор","Senator",174000,null,84,.1,0],
+["Міністр","Cabinet secretary / minister",250000,65000,86,.015,.02],
+["Прем'єр-міністр","Prime minister",null,75000,92,0,.001],
+["Віце-президент","Vice president",285000,null,90,.001,0],
+["Президент","President",400000,30000,100,.001,.001]]},
+{k:"tech",p:"biz",n:["Технологічна компанія","Tech company"],it:[
+["Спеціаліст техпідтримки","Support specialist",55000,33000,3,900,30],
+["QA-тестувальник","QA engineer",85000,45000,6,200,30],
+["Junior розробник","Junior developer",95000,42000,6,300,40],
+["Middle розробник","Mid-level developer",135000,116000,12,600,80],
+["Senior розробник","Senior developer",180000,200000,18,700,80],
+["DevOps-інженер","DevOps engineer",145000,145000,14,150,15],
+["Data scientist / ML-інженер","Data scientist / ML engineer",155000,150000,16,200,15],
+["Tech lead","Tech lead",210000,228000,26,150,15],
+["Продакт-менеджер","Product manager",160000,125000,26,400,15],
+["Engineering manager","Engineering manager",230000,228000,34,150,8],
+["CTO","CTO",300000,290000,50,50,3],
+["CEO стартапу","Startup CEO",200000,210000,44,50,3],
+["Засновник єдинорога","Unicorn founder",2000000,4000000,72,.5,.02]]},
+{k:"design",p:"biz",n:["Дизайн","Design"],it:[
+["Графічний дизайнер","Graphic designer",61000,25000,8,270,25],
+["Дизайнер пакування","Packaging designer",72000,30000,10,20,3],
+["Моушн-дизайнер","Motion designer",80000,40000,8,50,6],
+["Дизайнер інтер'єру","Interior designer",65000,35000,10,80,10],
+["UI/UX дизайнер","UI/UX designer",105000,62000,12,120,10],
+["Продуктовий дизайнер","Product designer",135000,104000,16,80,5],
+["Арт-директор","Art director",110000,70000,26,50,3],
+["Креативний директор","Creative director",165000,110000,36,30,2],
+["Власник дизайн-студії","Design studio owner",150000,120000,38,40,3]]},
+{k:"marketing",p:"biz",n:["Маркетинг і реклама","Marketing & advertising"],it:[
+["SMM-спеціаліст","Social media specialist",55000,22000,6,150,30],
+["Копірайтер","Copywriter",65000,25000,6,130,15],
+["Контент-маркетолог","Content marketer",70000,30000,8,100,10],
+["SEO-спеціаліст","SEO specialist",70000,40000,8,60,10],
+["PPC / медіабаєр / таргетолог","PPC specialist / media buyer",75000,45000,10,60,15],
+["Email / CRM-маркетолог","Email & CRM marketer",80000,45000,10,60,8],
+["Інженер з автоматизації продажів (Revenue Automation)","Revenue automation engineer",115000,83000,20,40,3],
+["Маркетинг-менеджер","Marketing manager",115000,55000,24,400,25],
+["Growth-маркетолог","Growth marketer",120000,80000,18,40,4],
+["Бренд-менеджер","Brand manager",120000,60000,22,60,5],
+["Директор з маркетингу","Marketing director",175000,100000,38,80,5],
+["CMO","CMO",300000,180000,52,20,1],
+["Власник маркетинг-агенції (до 10 людей)","Marketing agency owner (≤10)",140000,100000,36,60,4],
+["Власник агенції (50+ людей)","Agency owner (50+)",600000,500000,48,5,.3]]},
+{k:"construction",p:"biz",n:["Будівництво і ремонт","Construction & remodeling"],it:[
+["Різноробочий","Laborer",45000,25000,2,1700,200],
+["Зварювальник","Welder",52000,45000,5,420,50],
+["Тесляр / столяр","Carpenter",58000,35000,5,900,60],
+["Майстер HVAC","HVAC technician",60000,40000,7,400,20],
+["Електрик","Electrician",65000,40000,8,800,60],
+["Сантехнік","Plumber",65000,40000,8,500,50],
+["Кошторисник","Estimator",80000,40000,12,220,10],
+["Бригадир","Foreman",85000,55000,16,700,30],
+["Архітектор","Architect",95000,50000,20,130,15],
+["Проджект-менеджер","Construction project manager",105000,70000,26,480,10],
+["Прораб / суперінтендант","Site superintendent",110000,60000,26,150,15],
+["Власник ремонтної компанії (5–20)","Remodeling company owner (5–20)",180000,120000,38,300,25],
+["Власник будкомпанії (50–200)","Construction company owner (50–200)",600000,500000,50,30,3],
+["Девелопер","Real estate developer",3000000,5000000,66,5,.3]]},
+{k:"factory",p:"biz",n:["Завод і виробництво","Manufacturing"],it:[
+["Оператор виробничої лінії","Production line operator",42000,22000,3,8000,800],
+["Технік / наладчик","Maintenance technician",60000,30000,8,1000,150],
+["Майстер зміни","Shift supervisor",70000,35000,16,500,60],
+["Інженер-технолог","Manufacturing engineer",95000,40000,16,1000,100],
+["Директор заводу","Plant director",250000,150000,44,20,3]]},
+{k:"agro",p:"biz",n:["Сільське господарство","Agriculture"],it:[
+["Сільськогосподарський робітник","Farmworker",36000,18000,2,900,300],
+["Механізатор / тракторист","Tractor operator",48000,30000,4,100,100],
+["Агроном","Agronomist",70000,45000,14,30,20],
+["Фермер (власник господарства)","Farmer (farm owner)",100000,70000,28,1900,100],
+["Власник агрохолдингу","Agroholding owner",5000000,5000000,62,.1,.05]]},
+{k:"food",p:"biz",n:["Ресторани і готелі","Restaurants & hotels"],it:[
+["Посудомийник","Dishwasher",32000,12000,1,500,30],
+["Бармен","Bartender",40000,18000,2,700,40],
+["Офіціант (з чайовими)","Waiter (with tips)",38000,18000,2,2200,100],
+["Кухар","Line cook",38000,20000,3,2300,120],
+["Адміністратор готелю","Hotel front desk",36000,15000,3,300,30],
+["Шеф-кухар","Head chef",65000,45000,14,150,15],
+["Менеджер ресторану","Restaurant manager",65000,35000,16,400,25],
+["Власник кафе","Café owner",70000,60000,26,300,40],
+["Власник мережі ресторанів","Restaurant chain owner",1500000,1000000,52,.5,.1]]},
+{k:"retail",p:"biz",n:["Торгівля і склад","Retail & warehouse"],it:[
+["Касир","Cashier",30000,18000,1,3300,300],
+["Продавець-консультант","Sales associate",34000,17000,2,3700,400],
+["Мерчендайзер","Stocker / merchandiser",38000,18000,2,1700,100],
+["Працівник складу","Warehouse worker",40000,20000,3,3000,200],
+["Охоронець","Security guard",40000,25000,3,1100,200],
+["Менеджер з продажу (B2B)","B2B sales rep",75000,35000,10,1800,200],
+["Менеджер магазину","Store manager",65000,35000,14,1000,60],
+["Регіональний менеджер мережі","District manager",120000,70000,30,100,6],
+["Директор торгової мережі","Retail chain executive",400000,300000,48,10,.5]]},
+{k:"transport",p:"biz",n:["Транспорт і логістика","Transport & logistics"],it:[
+["Кур'єр","Courier",40000,25000,2,300,50],
+["Водій таксі / Uber","Rideshare driver",40000,30000,2,1500,80],
+["Водій доставки","Delivery driver",45000,30000,3,1700,80],
+["Диспетчер","Dispatcher",50000,25000,8,300,20],
+["Далекобійник","Truck driver",58000,60000,6,2000,150],
+["Логіст","Logistics coordinator",80000,40000,14,200,40],
+["Пілот авіалінії","Airline pilot",220000,null,24,150,0],
+["Власник транспортної компанії","Trucking company owner",250000,150000,38,100,15]]},
+{k:"finance",p:"biz",n:["Фінанси і банки","Finance & banking"],it:[
+["Касир банку","Bank teller",38000,16000,2,350,20],
+["Кредитний спеціаліст","Loan officer",70000,22000,10,300,20],
+["Бухгалтер","Accountant (CPA)",85000,25000,14,1500,300],
+["Фінансовий аналітик","Financial analyst",100000,40000,16,350,20],
+["Фінансовий радник","Financial advisor",100000,35000,16,330,5],
+["Аналітик інвестбанку","Investment banking analyst",180000,60000,14,30,1],
+["Партнер інвестбанку","Investment bank partner",1200000,null,54,5,0],
+["Голова правління банку","Bank CEO",30000000,1500000,86,.05,.05],
+["Менеджер хедж-фонду","Hedge fund manager",50000000,null,78,.2,0]]},
+{k:"law",p:"biz",n:["Приватне право","Private law"],it:[
+["Помічник юриста","Paralegal",60000,20000,4,350,20],
+["Юрист","Lawyer",145000,45000,20,800,80],
+["Юрист великої фірми","Big-law associate",225000,120000,18,50,3],
+["Партнер юрфірми","Law firm partner",1500000,600000,50,30,1]]},
+{k:"medpriv",p:"biz",n:["Приватна медицина","Private medicine"],it:[
+["Медичний асистент","Medical assistant",42000,15000,3,750,40],
+["Гігієніст стоматолога","Dental hygienist",88000,20000,8,200,10],
+["Фармацевт","Pharmacist",135000,25000,16,330,60],
+["Стоматолог","Dentist",180000,60000,26,150,30],
+["Хірург у приватній практиці","Private-practice surgeon",450000,150000,40,50,5],
+["Власник клініки","Clinic owner",700000,400000,44,20,3]]},
+{k:"realty",p:"biz",n:["Нерухомість","Real estate"],it:[
+["Ріелтор","Real estate agent",55000,40000,6,500,40],
+["Керуючий нерухомістю","Property manager",65000,30000,14,400,15],
+["Брокер з нерухомості","Real estate broker",100000,60000,20,150,5]]},
+{k:"media",p:"biz",n:["Медіа і творчість","Media & creative"],it:[
+["Фотограф","Photographer",45000,30000,4,150,15],
+["Відеограф / дрон-оператор","Videographer / drone pilot",55000,35000,5,80,10],
+["Музикант / артист","Musician / performer",45000,20000,6,200,20],
+["Актор","Actor",50000,20000,6,60,5],
+["Журналіст","Journalist",60000,25000,14,50,15],
+["Головний редактор","Editor-in-chief",200000,100000,44,10,2],
+["Телеведучий (національний)","National TV anchor",1000000,400000,50,.3,.1],
+["Топ-блогер / інфлюенсер","Top influencer",2000000,500000,40,5,.2]]},
+{k:"sport",p:"biz",n:["Спорт і шоу-бізнес","Sports & show business"],it:[
+["Професійний спортсмен","Pro athlete",1000000,50000,24,5,5],
+["Зірка спорту","Sports star",50000000,3000000,50,.2,.05],
+["Кінозірка","Movie star",20000000,200000,50,.1,.05],
+["Поп-зірка","Pop star",30000000,1000000,50,.1,.05]]},
+{k:"beauty",p:"biz",n:["Краса і послуги","Beauty & services"],it:[
+["Прибиральник / клінінг","Cleaner / janitor",35000,15000,1,2000,100],
+["Майстер манікюру","Nail technician",35000,25000,2,160,100],
+["Перукар","Hairdresser",38000,25000,3,650,100],
+["Масажист","Massage therapist",55000,25000,4,180,30],
+["Фітнес-тренер","Fitness trainer",50000,25000,6,350,30],
+["Власник салону краси","Beauty salon owner",90000,70000,28,150,20]]},
+{k:"small",p:"biz",n:["Власний бізнес","Own business"],it:[
+["Фрілансер / ФОП","Freelancer / self-employed",60000,45000,10,3000,1500],
+["Власник мікробізнесу (1–5 людей)","Micro-business owner (1–5)",90000,60000,30,6000,500],
+["Власник малого бізнесу (10–50)","Small business owner (10–50)",250000,150000,42,1500,100],
+["Власник середнього бізнесу (100–500)","Mid-size business owner (100–500)",1000000,600000,55,150,10]]},
+{k:"capital",p:"biz",n:["Великий капітал","Big capital"],it:[
+["CEO великої корпорації","Large corporation CEO",17000000,2000000,82,.5,.1],
+["Власник великого холдингу","Holding company owner",null,10000000,86,0,.1],
+["Мільярдер-засновник","Billionaire founder",500000000,null,94,.8,0],
+["Олігарх / власник ФПГ","Oligarch / conglomerate owner",null,200000000,96,0,.03],
+["Глава BlackRock / Vanguard","Head of BlackRock / Vanguard",30000000,null,98,.002,0]]},
+{k:"outside",p:"ext",n:["Поза ринком праці","Outside the labor market"],it:[
+["Безробітний (на допомозі)","Unemployed (on benefits)",16000,4000,0,7000,1000],
+["Людина з інвалідністю на виплатах","Disability benefits recipient",17000,4000,1,8000,2700],
+["Студент","Student",12000,8000,1,19000,1200],
+["Батько / мати в декреті, домогосподар","Stay-at-home parent",8000,7000,2,10000,800],
+["Пенсіонер","Retiree",24000,6000,3,50000,10000]]},
+{k:"civil",p:"ext",n:["Громада, НГО і церква","Nonprofits & religion"],it:[
+["Працівник НГО / фонду","Nonprofit worker",55000,30000,10,3000,50],
+["Священник / пастор","Priest / pastor",55000,20000,20,250,30],
+["Директор великого фонду / НГО","Large nonprofit CEO",400000,200000,50,1,.1],
+["Єпископ / митрополит","Bishop / metropolitan",150000,150000,55,.5,.1]]}
+];
+/* Extra roles: mostly visible in the ranking and search; the map labels only the most common ones */
+const EXTRA_IT={
+hospital:[
+["Помічник медсестри","Nursing assistant",39000,10000,2,1400,60],
+["Рентгенолаборант","Radiologic technologist",75000,15000,8,220,15],
+["Лаборант","Lab technician",60000,13000,6,330,30],
+["Анестезіолог","Anesthesiologist",450000,40000,40,35,8],
+["Медсестра вищої кваліфікації (NP)","Nurse practitioner",130000,25000,20,280,5]],
+medpriv:[
+["Доглядальниця вдома","Home health aide",34000,10000,1,3700,100],
+["Асистент стоматолога","Dental assistant",46000,15000,3,370,20],
+["Фармацевт-провізор (помічник)","Pharmacy technician",40000,15000,3,450,40],
+["Фізіотерапевт / реабілітолог","Physical therapist",100000,20000,14,250,15],
+["Психолог / психотерапевт","Psychologist / therapist",95000,30000,14,200,20],
+["Ветеринар","Veterinarian",120000,30000,20,90,15],
+["Окуліст-оптометрист","Optometrist",130000,25000,18,45,5]],
+tech:[
+["Системний адміністратор","IT system administrator",95000,45000,12,330,30],
+["Дата-аналітик","Data analyst",85000,60000,10,250,15],
+["Спеціаліст з кібербезпеки","Cybersecurity analyst",125000,120000,16,180,8],
+["Розробник ігор","Game developer",110000,90000,10,50,8],
+["Скрам-майстер / проджект в IT","Scrum master / IT project manager",110000,80000,18,150,15],
+["IT-рекрутер","Tech recruiter",75000,50000,10,80,10],
+["Архітектор рішень","Solutions architect",180000,230000,26,100,5],
+["VP з розробки","VP of Engineering",350000,300000,46,20,1]],
+construction:[
+["Ландшафтний робітник","Landscaper",40000,20000,3,1000,30],
+["Маляр","Painter",48000,30000,3,400,40],
+["Покрівельник","Roofer",50000,35000,4,150,20],
+["Монтажник меблів / кухонь","Cabinet installer",50000,35000,5,100,15],
+["Плиточник / муляр","Tile setter / mason",55000,40000,5,250,30],
+["Оператор спецтехніки","Heavy equipment operator",60000,45000,6,450,25],
+["Кранівник","Crane operator",70000,50000,6,50,5],
+["Продавець у шоурумі (кухні, ванні)","Showroom sales consultant",60000,30000,8,80,5],
+["Дизайнер кухонь і ванних","Kitchen & bath designer",70000,40000,12,40,4],
+["Інженер-будівельник","Civil engineer",100000,45000,18,330,25]],
+agro:[
+["Лісоруб / лісник","Forestry worker",42000,15000,3,50,30],
+["Рибалка","Fisherman",40000,20000,3,30,10],
+["Пасічник","Beekeeper",45000,25000,4,5,20]],
+food:[
+["Працівник фастфуду","Fast food worker",29000,14000,1,3500,60],
+["Бариста","Barista",32000,15000,1,500,40],
+["Пекар","Baker",38000,18000,3,200,30],
+["Сомельє","Sommelier",60000,30000,8,10,1],
+["Менеджер готелю","Hotel manager",75000,45000,24,50,5],
+["Топ-менеджер готельної мережі","Hotel chain executive",600000,300000,50,1,.1]],
+transport:[
+["Водій автобуса","Bus driver",52000,20000,4,450,40],
+["Машиніст потяга","Train engineer",75000,25000,8,40,15],
+["Бортпровідник","Flight attendant",70000,null,4,120,0],
+["Моряк","Sailor",50000,60000,3,30,40],
+["Капітан судна","Ship captain",110000,150000,24,10,5],
+["Авіадиспетчер","Air traffic controller",140000,null,20,25,0]],
+law:[
+["Нотаріус","Notary",55000,60000,10,40,6],
+["Патентний повірений","Patent attorney",180000,80000,18,15,.5],
+["Корпоративний юрист (in-house)","In-house counsel",180000,80000,24,100,5]],
+realty:[
+["Оцінювач нерухомості","Appraiser",65000,25000,8,80,5],
+["Іпотечний брокер","Mortgage broker",80000,40000,10,100,3],
+["Орендодавець (5–20 квартир)","Landlord (5–20 units)",150000,80000,20,500,30]],
+media:[
+["Дрібний контент-мейкер","Small content creator",35000,15000,3,500,50],
+["Письменник / автор","Writer / author",60000,20000,8,50,5],
+["Радіоведучий","Radio host",55000,25000,10,30,3],
+["PR-менеджер","PR manager",80000,40000,14,280,10],
+["Продюсер подій","Event producer",65000,35000,14,130,10],
+["Власник медіахолдингу","Media group owner",5000000,5000000,70,.2,.05]],
+beauty:[
+["Хатня робітниця","Housekeeper",33000,15000,1,900,50],
+["Няня","Nanny",40000,20000,2,400,40],
+["Грумер / вигул собак","Dog groomer / walker",35000,15000,2,250,10],
+["Барбер","Barber",40000,25000,3,150,40],
+["Косметолог","Esthetician",45000,25000,3,80,40],
+["Тату-майстер","Tattoo artist",50000,35000,4,50,10],
+["Інструктор йоги","Yoga instructor",45000,20000,5,80,10],
+["Особистий водій","Chauffeur",45000,25000,2,100,20]],
+small:[
+["Онлайн-продавець (Amazon, Etsy, Rozetka)","Online seller",80000,60000,22,800,100],
+["Приватний інвестор","Private investor",300000,200000,30,500,20]],
+outside:[
+["Ветеран на пенсії","Retired veteran",40000,12000,4,5000,300]]
+};
+const EXTRA_IND=[
+{k:"edupriv",p:"biz",n:["Приватна освіта і догляд","Private education & childcare"],it:[
+["Вихователь у садочку","Childcare worker",31000,9000,3,1000,100],
+["Вихователь дошкільний (вчитель)","Preschool teacher",38000,10000,8,500,60],
+["Репетитор","Tutor",45000,20000,6,300,60],
+["Інструктор з водіння","Driving instructor",45000,25000,6,40,10],
+["Вчитель приватної школи","Private school teacher",60000,25000,18,500,10],
+["Власник мовної школи / курсів","Language school owner",120000,80000,32,20,3]]},
+{k:"office",p:"biz",n:["Офіс і бізнес-послуги","Office & business services"],it:[
+["Оператор кол-центру","Call center agent",38000,18000,2,2800,100],
+["Адміністратор на рецепції","Receptionist",37000,15000,2,1000,40],
+["Перекладач","Translator / interpreter",58000,30000,6,80,30],
+["Податковий консультант","Tax preparer",50000,20000,6,80,10],
+["Страховий агент","Insurance agent",60000,25000,8,550,20],
+["HR-спеціаліст","HR specialist",70000,30000,12,900,40],
+["Рекрутер","Recruiter",65000,30000,10,300,20],
+["Менеджер з роботи з клієнтами","Customer success manager",80000,40000,10,300,15],
+["Аудитор","Auditor",80000,35000,14,300,15],
+["Особистий асистент керівника","Executive assistant",75000,35000,10,500,20],
+["Операційний менеджер","Operations manager",110000,50000,28,1500,40],
+["Бізнес-консультант","Management consultant",120000,70000,22,900,10],
+["Актуарій","Actuary",125000,50000,16,30,.5],
+["HR-директор","HR director",160000,90000,36,200,5],
+["COO","COO",350000,200000,52,30,2],
+["CFO","CFO",400000,250000,54,30,2],
+["Партнер консалтингової фірми","Consulting firm partner",1000000,400000,52,10,.2]]},
+{k:"auto",p:"biz",n:["Авто і ремонт техніки","Auto & repair"],it:[
+["Мийник автомобілів","Car wash worker",30000,15000,1,180,20],
+["Майстер з ремонту техніки","Appliance repair technician",48000,30000,5,40,15],
+["Автомеханік","Auto mechanic",50000,35000,5,750,80],
+["Кузовщик","Auto body technician",52000,35000,5,150,20],
+["Продавець авто","Car salesperson",60000,35000,6,350,15],
+["Власник автосалону","Car dealership owner",1500000,800000,50,15,1]]},
+{k:"energy",p:"biz",n:["Енергетика і промисловість","Energy & heavy industry"],it:[
+["Шахтар","Miner",65000,30000,4,200,40],
+["Робітник нафтової вежі","Oil rig worker",70000,null,4,60,0],
+["Електромонтер ЛЕП","Power lineworker",85000,40000,8,120,25],
+["Оператор електростанції","Power plant operator",100000,40000,12,40,15],
+["Інженер-нафтовик / енергетик","Petroleum / energy engineer",140000,60000,18,40,10],
+["CEO енергетичної компанії","Energy company CEO",15000000,3000000,80,.1,.02]]},
+{k:"diplo",p:"state",n:["Дипломатія, кордон і спецслужби","Diplomacy, border & intelligence"],it:[
+["Офіцер виправної колонії","Corrections officer",55000,18000,12,400,20],
+["Прикордонник","Border guard",75000,25000,16,60,50],
+["Митник","Customs officer",85000,30000,20,30,10],
+["Офіцер розвідки / СБУ","Intelligence officer",110000,40000,30,40,30],
+["Дипломат","Diplomat",120000,60000,40,15,3],
+["Посол","Ambassador",190000,100000,62,.2,.1],
+["Голова розвідки / СБУ","Head of intelligence agency",235000,120000,86,.002,.002],
+["Голова центробанку","Central bank governor",250000,300000,92,.001,.001]]}
+];
+for(const [k,arr] of Object.entries(EXTRA_IT))DATA.find(d=>d.k===k).it.push(...arr);
+DATA.splice(DATA.findIndex(d=>d.k==="outside"),0,...EXTRA_IND);
+
+/* Well-known people (income = rough public estimate incl. business income; not salary only) */
+const FAMOUS={
+us:[["Ілон Маск","Elon Musk","biz",1e9,97,"Tesla, SpaceX","Tesla, SpaceX"],
+ ["Дональд Трамп","Donald Trump","state",400000,100,"Президент США","U.S. President"],
+ ["Джефф Безос","Jeff Bezos","biz",5e8,92,"Засновник Amazon","Amazon founder"],
+ ["Ларрі Фінк","Larry Fink","biz",2.7e7,98,"CEO BlackRock","BlackRock CEO"],
+ ["Дженсен Хуанг","Jensen Huang","biz",5e7,90,"CEO Nvidia","Nvidia CEO"],
+ ["Тейлор Свіфт","Taylor Swift","biz",2e8,45,"Поп-зірка","Pop star"],
+ ["Леброн Джеймс","LeBron James","biz",1.3e8,40,"Баскетболіст","Basketball player"],
+ ["MrBeast","MrBeast","biz",8.5e7,40,"YouTube-блогер","YouTuber"],
+ ["Медіанний працівник США","Median U.S. worker","biz",50000,5,"Половина заробляє менше","Half earn less"]],
+ua:[["Володимир Зеленський","Volodymyr Zelensky","state",30000,100,"Президент України","President of Ukraine"],
+ ["Рінат Ахметов","Rinat Akhmetov","biz",1.5e8,90,"SCM","SCM Group"],
+ ["Віктор Пінчук","Victor Pinchuk","biz",8e7,82,"EastOne","EastOne Group"],
+ ["Олег Гороховський","Oleh Horokhovskyi","biz",1e7,55,"Співзасновник monobank","monobank co-founder"],
+ ["Олександр Усик","Oleksandr Usyk","biz",1e8,35,"Чемпіон світу з боксу","World boxing champion"],
+ ["Медіанний працівник України","Median Ukrainian worker","biz",20000,5,"Половина заробляє менше","Half earn less"]]};
+
+const PILLARS={army:{n:["Армія","Military"],c:"--army"},state:{n:["Держава","State"],c:"--state"},biz:{n:["Комерція","Commerce"],c:"--biz"},ext:{n:["Поза ринком і громада","Outside & civil"],c:"--ext"}};
+const ORDER=["army","state","biz","ext"];
+const PCOL=["--pa","--pb","--pc"],PL=["A","B","C"];
+const RANGE={us:[Math.log10(20000),Math.log10(5e7)],ua:[Math.log10(80000),Math.log10(2e9)]};
+
+const T={
+uk:{logo:"Три стовпи",h1:"Де ви в <em>суспільстві</em>",lede:"Армія, держава, комерція і ті, хто поза ринком, на одній шкалі 0–100. Рівень — це суміш доходу і влади посади. Оберіть до трьох людей і порівняйте.",
+ tabs:["Карта","Рейтинг","Кар'єра","Про модель"],us:"США",ua:"Україна",money:"Гроші",power:"Влада",fam:"Відомі люди",
+ industry:"Галузь",position:"Посада",income:"Фактичний дохід",pw:"Влада",pwAuto:"Як у посади",reset:"скинути",
+ perY:"/рік",perM:"/міс",pctPeople:"вище за {p}% дорослих",level:"рівень",typeInd:"Почніть вводити галузь…",typePos:"Почніть вводити посаду…",noMatch:"Нічого не знайдено",
+ above:"Вище за вас",below:"Нижче за вас",you:"Ви",shelf:"Ваша полиця в інших стовпах",assign:"Поставити як",famous:"відома людина",
+ search:"Пошук посади або галузі…",cols:["#","Посада","Галузь","Стовп","Дохід","Влада","Людей","Рівень"],
+ simWho:"Чий шлях рахуємо",simTo:"Ціль",simPick:"Оберіть цільову посаду…",simQuick:"Швидкі цілі",simGap:"Розрив у рівні",simInc:"Дохід цілі",simX:"разів більше, ніж зараз",
+ simPpl:"людей між вами",simNeed:"Щоб дійти лише доходом",simNeedNo:"Лише доходом не дійти: потрібна більша влада (керувати людьми, бюджетом, рішеннями).",simNeedOk:"Вам потрібно заробляти {v} при теперішньому рівні влади.",
+ simPath:"Типовий шлях сходинками",simDown:"Ціль нижче за ваш поточний рівень.",simSame:"Ви вже на цьому рівні.",
+ thousand:"тис.",million:"млн",
+ wq:"Що важить більше для статусу",wPre:[[0,"Лише влада"],[25,"Влада важливіша"],[55,"Баланс"],[80,"Гроші важливіші"],[100,"Лише гроші"]],
+ wFormula:"Рівень = <b>{m}%</b> × бал доходу + <b>{p}%</b> × бал влади",
+ wScale:"Бал доходу: {lo} = 0, {hi} = 100. Шкала логарифмічна: кожне ×10 до доходу дає +{per} балів. Бал влади — оцінка посади від 0 до 100.",
+ incPts:"бал доходу",pwPts:"бал влади",
+ fdisc:"Розважальний пілотний проєкт. Не наукова оцінка і не порада. Модель оцінює посади, а не людей. Повний дисклеймер — у розділі «Про модель».",
+ discT:"Дисклеймер",
+ disc:["«Три стовпи» — розважальний, навчальний і дослідницький пілотний проєкт. Він зроблений для цікавості й обговорення, а не як наукова, офіційна чи професійна оцінка.",
+  "Рівень посади — умовна модель автора. Доходи — приблизні орієнтири з відкритих джерел і можуть бути неточними або застарілими. Оцінки влади й межі кластерів суб'єктивні.",
+  "Модель оцінює посади, а не людей. Статус професії нічого не каже про цінність, гідність чи характер конкретної людини. Будь-яка чесна праця заслуговує на повагу.",
+  "Відомі люди наведені лише як орієнтири на основі їхніх публічних посад і публічних оцінок доходу. Це не твердження про їхні реальні статки, вплив чи особисті якості. Проєкт не пов'язаний із жодною згаданою людиною, компанією чи державним органом.",
+  "Це не кар'єрна, фінансова, юридична чи будь-яка інша порада. Не ухвалюйте рішень лише на основі цієї сторінки.",
+  "Сторінка нікуди не надсилає те, що ви вводите: ваш вибір зберігається лише у вашому браузері.",
+  "Мета пілоту — дослідити, наскільки людям цікаво побачити своє місце на соціальній драбині."],
+ cl:["Низ","Робочий клас","Середній клас","Вищий середній","Заможні й впливові","Еліта","Вершина"],
+ ladderT:"Сходинки поруч",apexNote:"вершина стовпа завжди нагорі",vsOthers:"Порівняно з іншими",cmpT:"Порівняння людей",cmpTop:"Ви у найвищому кластері",cmpPw:"лише доходом не дійти",own:"ваш",of:"з",incX:"дохід",
+ cmpRows:{position:"Посада",pillar:"Стовп",incM:"Дохід на місяць",incY:"Дохід на рік",power:"Влада",points:"Бал доходу · бал влади",level:"Рівень",cluster:"Соціальний кластер",split:"Розподіл суспільства",cooler:"Крутіші за",sameLvl:"На вашому рівні (±1)",simpler:"Простіші за",holders:"Людей на цій посаді",rank:"Місце серед посад",next:"Наступний кластер",vsA:"Різниця з {a}"},
+ cmpNote:"Відсотки — частка всіх дорослих у моделі, включно з пенсіонерами і студентами. Смужка: ліворуч ті, кого ви випереджаєте, посередині ваш рівень, праворуч ті, хто вище.",
+ pwOpts:[[0,"0 · Без впливу"],[3,"3 · Без підлеглих"],[12,"12 · Від мене залежать"],[22,"22 · Керую кількома людьми"],[32,"32 · Команда / мікробізнес"],[45,"45 · Організація 50+"],[62,"62 · Вплив на місто чи галузь"],[80,"80 · Вплив на країну"]],
+ about:[["Як рахується рівень","Дохід переводиться в бал 0–100 на логарифмічній шкалі (США: від $20 тис. до $50 млн на рік; Україна: від ~₴80 тис. до ₴2 млрд на рік) і змішується з оцінкою влади посади. Повзунок «Гроші — Влада» на карті змінює пропорцію. Оцінка влади експертна і суб'єктивна."],
+  ["Що охоплює модель","Три стовпи покривають приблизно 90–95% тих, хто працює. Четверта колона додає тих, кого ринок праці не охоплює: студентів, пенсіонерів, безробітних, батьків у декреті, людей на виплатах, а також НГО і церкву. Разом це майже все доросле населення."],
+  ["Відсоток людей","«Вище за X% дорослих» зважує кожну посаду кількістю людей у ній. Чисельність приблизна (BLS, Держстат, оцінки), а одна посада в моделі часто представляє цілу групу схожих професій. Це орієнтир, а не перепис."],
+  ["Вершини стовпів","Найвища посада гілки завжди стоїть на її вершині, хоч би як ви рухали повзунок. Президент — вершина держави і стоїть вище за будь-кого в армії, бо армія йому підпорядкована. Вершина армії — голова Об'єднаного комітету начальників штабів (США) або головнокомандувач ЗСУ (Україна). Якщо формула ставить таку посаду нижче, її піднімають на 1 бал вище за наступну."],
+  ["Соціальні кластери","Широкі смуги на карті ділять дорослих за часткою населення: нижні 20%, 20–50%, 50–80%, 80–95%, 95–99%, 99–99.9% і топ 0.1%. Межі рахуються автоматично з чисельності людей, тому зсуваються, коли міняєте країну або повзунок «Гроші — Влада»."],
+  ["Дані США","Армія: повна грошова компенсація (базова ставка + житлові + харчові) за таблицями DFAS для типового стажу. Цивільні посади: медіани BLS OEWS 2024–2025. Політики: законодавчі оклади. CEO: річні звіти компаній."],
+  ["Дані України","Орієнтири 2025–2026: work.ua, robota.ua, опитування DOU (IT), законодавчі оклади, декларації. Армія — без бойових (окремий рядок для передової). Офіційні зарплати держсектору не враховують неформальних доходів. Точність нижча, ніж для США."],
+  ["Відомі люди","Зірочки на карті — орієнтири. Політики стоять за окладом своєї посади (Трамп і Зеленський на рівні «Президент»). Для бізнесменів і зірок «дохід» — груба публічна оцінка разом із бізнес-доходом. Багатство (статки) модель не рахує: дохід вище $50 млн обрізано на 100."]]},
+en:{logo:"Three Pillars",h1:"Where you stand in <em>society</em>",lede:"Military, state, commerce and those outside the labor market on one 0–100 scale. Level blends income and the power of the role. Pick up to three people and compare.",
+ tabs:["Map","Ranking","Career","About"],us:"USA",ua:"Ukraine",money:"Money",power:"Power",fam:"Famous people",
+ industry:"Industry",position:"Position",income:"Actual income",pw:"Power",pwAuto:"Same as role",reset:"reset",
+ perY:"/yr",perM:"/mo",pctPeople:"above {p}% of adults",level:"level",typeInd:"Start typing an industry…",typePos:"Start typing a position…",noMatch:"No matches",
+ above:"Above you",below:"Below you",you:"You",shelf:"Your shelf in other pillars",assign:"Set as",famous:"famous person",
+ search:"Search a position or industry…",cols:["#","Position","Industry","Pillar","Income","Power","People","Level"],
+ simWho:"Whose path",simTo:"Target",simPick:"Pick a target position…",simQuick:"Quick targets",simGap:"Level gap",simInc:"Target income",simX:"× your current income",
+ simPpl:"people between you",simNeed:"Getting there on income alone",simNeedNo:"Income alone won't get you there: you need more power (people, budget, decisions).",simNeedOk:"You'd need to earn {v} at your current level of power.",
+ simPath:"Typical path, step by step",simDown:"The target is below your current level.",simSame:"You're already on this level.",
+ thousand:"k",million:"M",
+ wq:"What matters more for status",wPre:[[0,"Power only"],[25,"Power first"],[55,"Balanced"],[80,"Money first"],[100,"Money only"]],
+ wFormula:"Level = <b>{m}%</b> × income points + <b>{p}%</b> × power points",
+ wScale:"Income points: {lo} = 0, {hi} = 100. The scale is logarithmic: every ×10 in income adds +{per} points. Power points are a 0–100 rating of the role.",
+ incPts:"income pts",pwPts:"power pts",
+ fdisc:"An entertainment pilot project. Not a scientific assessment and not advice. The model rates roles, not people. Full disclaimer under “About”.",
+ discT:"Disclaimer",
+ disc:["“Three Pillars” is an entertainment, educational and research pilot project. It is made for curiosity and discussion, not as a scientific, official or professional assessment.",
+  "A role's level is the author's simplified model. Incomes are rough reference points from public sources and may be inaccurate or outdated. Power scores and cluster boundaries are subjective.",
+  "The model rates roles, not people. A profession's status says nothing about any individual's worth, dignity or character. All honest work deserves respect.",
+  "Well-known people appear only as reference points, based on their public roles and public income estimates. Nothing here is a statement about their actual wealth, influence or personal qualities. The project is not affiliated with any person, company or government body mentioned.",
+  "This is not career, financial, legal or any other advice. Don't make decisions based on this page alone.",
+  "The page doesn't send anything you enter anywhere: your choices stay in your own browser.",
+  "The pilot's goal is to learn how many people are curious to see where they stand on the social ladder."],
+ cl:["Bottom","Working class","Middle class","Upper middle","Affluent & influential","Elite","Apex"],
+ ladderT:"Nearby steps",apexNote:"a pillar's apex always stays on top",vsOthers:"Compared with the others",cmpT:"People compared",cmpTop:"You're in the top cluster",cmpPw:"income alone won't do it",own:"yours",of:"of",incX:"income",
+ cmpRows:{position:"Position",pillar:"Pillar",incM:"Income per month",incY:"Income per year",power:"Power",points:"Income pts · power pts",level:"Level",cluster:"Social cluster",split:"Where society splits",cooler:"Above",sameLvl:"On your level (±1)",simpler:"Below",holders:"People in this role",rank:"Rank among roles",next:"Next cluster",vsA:"Difference vs {a}"},
+ cmpNote:"Percentages are shares of all adults in the model, including retirees and students. Bar: left is who you outrank, middle is your level, right is who stands above you.",
+ pwOpts:[[0,"0 · No influence"],[3,"3 · No reports"],[12,"12 · Others rely on me"],[22,"22 · Manage a few people"],[32,"32 · Team / micro-business"],[45,"45 · Run an org of 50+"],[62,"62 · Influence a city or industry"],[80,"80 · Influence a country"]],
+ about:[["How the level is computed","Income becomes a 0–100 score on a log scale (USA: $20k to $50M per year; Ukraine: ~₴80k to ₴2B per year) and blends with a power score for the role. The Money–Power slider on the map sets the mix. Power scores are an expert judgment and subjective."],
+  ["What the model covers","The three pillars cover roughly 90–95% of working people. The fourth column adds those the labor market misses: students, retirees, the unemployed, stay-at-home parents, benefit recipients, plus nonprofits and religion. Together that is nearly the whole adult population."],
+  ["Share of people","“Above X% of adults” weights each role by how many people hold it. Counts are approximate (BLS, Ukrainian statistics, estimates), and one role often stands for a whole group of similar jobs. Treat it as a guide, not a census."],
+  ["Pillar apexes","The top role of a branch always sits at its peak, however you move the slider. The President is the apex of the state and stands above everyone in the military, which reports to the President. The military apex is the Chairman of the Joint Chiefs (U.S.) or the Commander-in-Chief of the AFU (Ukraine). If the formula would place such a role lower, it is lifted 1 point above the next one."],
+  ["Social clusters","The wide bands on the map split adults by share of the population: bottom 20%, 20–50%, 50–80%, 80–95%, 95–99%, 99–99.9% and the top 0.1%. Boundaries are computed from headcounts, so they shift when you change the country or the Money–Power slider."],
+  ["U.S. data","Military: regular military compensation (basic pay + housing + food) from DFAS tables at typical years of service. Civilian roles: BLS OEWS medians 2024–2025. Politicians: statutory salaries. CEOs: company proxy statements."],
+  ["Ukraine data","2025–2026 reference points: work.ua, robota.ua, DOU survey (IT), statutory salaries, declarations. Military excludes combat bonuses (a separate frontline row includes them). Official public pay excludes informal income. Less precise than the U.S. data."],
+  ["Famous people","Stars on the map are reference points. Politicians sit at the salary of their office (Trump and Zelensky at the President level). For business people and celebrities, “income” is a rough public estimate including business income. Wealth is not modeled: income above $50M is capped at 100."]]}
+};
+
+/* ===== STATE ===== */
+const DEF={country:"us",lang:"en",W:.25,tab:"map",fam:true,sel:0,focus:null,simP:0,simT:"tech:10",pf:{army:1,state:1,biz:1,ext:1},persons:[
+ {name:"Person A",ind:"marketing",i:6,ovus:null,ovua:null,pw:null},
+ {name:"Person B",ind:"design",i:0,ovus:null,ovua:null,pw:null},
+ {name:"Person C",ind:"army",i:10,ovus:null,ovua:null,pw:null}]};
+let S=JSON.parse(JSON.stringify(DEF));
+try{const s=JSON.parse(localStorage.getItem("pillars6")||"null");if(s&&s.persons&&s.persons.length===3)S=Object.assign(S,s)}catch(e){}
+const save=()=>{try{localStorage.setItem("pillars6",JSON.stringify(S))}catch(e){}};
+
+const t=k=>T[S.lang][k], L=()=>S.lang==="uk"?0:1;
+const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
+const IND=Object.fromEntries(DATA.map(d=>[d.k,d]));
+const col=v=>`var(${v})`, pc=p=>col(PILLARS[p].c);
+const US=()=>S.country==="us";
+function incIdx(annual){const [a,b]=RANGE[S.country];return Math.max(0,Math.min(100,100*(Math.log10(Math.max(annual,1))-a)/(b-a)))}
+const ann=v=>US()?v:v*12;
+const score=(inc,pw)=>S.W*incIdx(ann(inc))+(1-S.W)*pw;
+function money(v,short){
+  const k=t("thousand"),m=t("million"),sp=L()?"":" ";
+  const cur=US()?"$":"₴";
+  let s;
+  if(v>=1e9)s=cur+(+(v/1e9).toFixed(1))+(L()?"B":" млрд");
+  else if(v>=1e6)s=cur+(+(v/1e6).toFixed(v>=1e7?0:1))+sp+m;
+  else s=cur+Math.round(v/1000)+sp+k;
+  return short?s:s+(US()?t("perY"):t("perM"));
+}
+const ppl=w=>w>=1000?(+(w/1000).toFixed(1))+(L()?"M":" млн"):w>=1?Math.round(w)+(L()?"k":" тис."):w>0?"<1"+(L()?"k":" тис."):"—";
+
+let ITEMS=[],FAM=[],TOTAL=1;
+function build(){
+  const ci=US()?2:3,wi=US()?5:6;ITEMS=[];
+  for(const d of DATA)d.it.forEach((x,i)=>{if(x[ci]==null)return;ITEMS.push({id:d.k+":"+i,ind:d.k,i,p:d.p,en:x[1],name:x[L()],indName:d.n[L()],inc:x[ci],pw:x[4],w:x[wi]||0,s:score(x[ci],x[4])})});
+  // Apex rule: the top role of a pillar always stays on top of it, whatever the slider says.
+  // Army: Chairman of the Joint Chiefs (US) / Commander-in-Chief (UA). State: President, above every army and state role.
+  const bump=(it,pool)=>{if(!it)return;const m=Math.max(...pool.filter(x=>x!==it).map(x=>x.s));if(it.s<m+1)it.s=Math.min(100,m+1);it.apex=true};
+  const army=ITEMS.filter(x=>x.p==="army"),state=ITEMS.filter(x=>x.p==="state");
+  bump(army.find(x=>x.en==="Chairman of the Joint Chiefs"||x.en==="Commander-in-Chief of the AFU"),army);
+  const pres=state.find(x=>x.en==="President");bump(pres,state.concat(army));
+  FAM=FAMOUS[S.country].map((f,i)=>({id:"f:"+i,fam:true,p:f[2],name:f[L()],indName:f[5+L()],inc:f[3],pw:f[4],w:0,s:f[2]==="state"&&f[4]===100&&pres?pres.s:score(f[3],f[4])}));
+  TOTAL=ITEMS.reduce((a,x)=>a+x.w,0)||1;
+  buildClusters();
+}
+const pctOf=s=>Math.round(100*ITEMS.filter(x=>x.s<s).reduce((a,x)=>a+x.w,0)/TOTAL);
+function resolve(pi){
+  const P=S.persons[pi];
+  let it=ITEMS.find(x=>x.ind===P.ind&&x.i===P.i);
+  if(!it){it=ITEMS.find(x=>x.ind===P.ind)||ITEMS[0];P.ind=it.ind;P.i=it.i}
+  const ov=US()?P.ovus:P.ovua, inc=ov??it.inc, pw=P.pw??it.pw;
+  const sc=score(inc,pw);return {...it,base:it,inc,pw,over:ov!=null,pwOver:P.pw!=null,s:it.apex?Math.max(sc,it.s):sc};
+}
+const pname=pi=>S.persons[pi].name||("Person "+PL[pi]);
+let R=[];
+
+/* ===== COMBOBOX ===== */
+function combo(root,{opts,label,pick,ph}){
+  const inp=root.querySelector("input"),ul=root.querySelector("ul");let list=[],act=0;
+  inp.placeholder=ph;inp.value=label();
+  const draw=()=>{ul.innerHTML=list.length?list.map((o,i)=>`<li role="option" data-i="${i}" class="${i===act?"act":""}"><span>${o.dot?`<i style="background:${o.dot}"></i>`:""}${esc(o.label)}</span>${o.sub?`<small>${esc(o.sub)}</small>`:""}</li>`).join(""):`<li class="empty">${t("noMatch")}</li>`;ul.querySelector(".act")?.scrollIntoView({block:"nearest"})};
+  const show=q=>{list=opts(q.trim().toLowerCase());act=0;ul.hidden=false;draw()};
+  const done=i=>{const o=list[i];if(!o)return;ul.hidden=true;pick(o.v);inp.blur()};
+  inp.addEventListener("focus",()=>{inp.select();show("")});
+  inp.addEventListener("input",()=>show(inp.value));
+  inp.addEventListener("keydown",e=>{if(ul.hidden)return;
+    if(e.key==="ArrowDown"){act=Math.min(act+1,list.length-1);draw();e.preventDefault()}
+    else if(e.key==="ArrowUp"){act=Math.max(act-1,0);draw();e.preventDefault()}
+    else if(e.key==="Enter"){done(act);e.preventDefault()}
+    else if(e.key==="Escape"){ul.hidden=true;inp.blur()}});
+  ul.addEventListener("mousedown",e=>{const li=e.target.closest("li[data-i]");if(li){e.preventDefault();done(+li.dataset.i)}});
+  inp.addEventListener("blur",()=>setTimeout(()=>{ul.hidden=true;inp.value=label()},150));
+  return ()=>{if(document.activeElement!==inp)inp.value=label()};
+}
+const posOpts=(q,ind)=>{
+  const own=ITEMS.filter(x=>(!ind||x.ind===ind)&&(!q||x.name.toLowerCase().includes(q))).map(x=>({v:x.id,label:x.name,sub:money(x.inc,true),dot:pc(x.p)}));
+  if(!ind||q.length<2)return own.slice(0,ind?100:60);
+  return own.concat(ITEMS.filter(x=>x.ind!==ind&&(x.name.toLowerCase().includes(q)||x.indName.toLowerCase().includes(q))).slice(0,25).map(x=>({v:x.id,label:x.name,sub:x.indName,dot:pc(x.p)})));
+};
+
+/* ===== PEOPLE ===== */
+let refs=[];
+function buildPeople(){
+  const box=document.getElementById("people");refs=[];
+  box.innerHTML=S.persons.map((P,pi)=>`
+  <article class="pcard" style="--pcol:var(${PCOL[pi]})">
+    <div class="phead"><span class="badge">${PL[pi]}</span>
+      <input class="pname" id="pname${pi}" value="${esc(pname(pi))}" aria-label="name">
+      <div class="pscore"><b id="psc${pi}">0</b><small>${t("level")}</small></div></div>
+    <div class="fields">
+      <div class="full"><label class="flabel" for="ind${pi}">${t("industry")}</label><div class="combo" id="cind${pi}"><input id="ind${pi}" autocomplete="off" role="combobox"><ul role="listbox" hidden></ul></div></div>
+      <div class="full"><label class="flabel" for="pos${pi}">${t("position")}</label><div class="combo" id="cpos${pi}"><input id="pos${pi}" autocomplete="off" role="combobox"><ul role="listbox" hidden></ul></div></div>
+      <div><label class="flabel" for="inc${pi}"><span>${t("income")}${US()?" $"+t("perY"):" ₴"+t("perM")}</span><button type="button" id="rst${pi}" hidden>${t("reset")}</button></label><input class="inp mono" id="inc${pi}" type="number" min="0" step="${US()?1000:500}"></div>
+      <div><label class="flabel" for="pw${pi}">${t("pw")}</label><select class="inp" id="pw${pi}"></select></div>
+    </div>
+    <div class="pfoot"><div class="pctbar"><span id="pbar${pi}"></span></div><div class="pmeta" id="pmeta${pi}"></div></div>
+  </article>`).join("");
+  S.persons.forEach((P,pi)=>{
+    document.getElementById("pname"+pi).addEventListener("input",e=>{P.name=e.target.value;refresh()});
+    refs.push(combo(document.getElementById("cind"+pi),{ph:t("typeInd"),label:()=>IND[P.ind].n[L()],
+      opts:q=>DATA.filter(d=>ITEMS.some(x=>x.ind===d.k)&&(!q||d.n[0].toLowerCase().includes(q)||d.n[1].toLowerCase().includes(q))).map(d=>({v:d.k,label:d.n[L()],sub:PILLARS[d.p].n[L()],dot:pc(d.p)})),
+      pick:v=>{P.ind=v;P.i=ITEMS.find(x=>x.ind===v).i;clearOv(P);refresh();setTimeout(()=>document.getElementById("pos"+pi).focus(),0)}}));
+    refs.push(combo(document.getElementById("cpos"+pi),{ph:t("typePos"),label:()=>resolve(pi).base.name,
+      opts:q=>posOpts(q,P.ind),pick:v=>{const x=ITEMS.find(y=>y.id===v);P.ind=x.ind;P.i=x.i;clearOv(P);refresh()}}));
+    const inc=document.getElementById("inc"+pi);
+    inc.addEventListener("input",()=>{const v=inc.value===""?null:+inc.value;if(US())P.ovus=v>0?v:null;else P.ovua=v>0?v:null;refresh()});
+    document.getElementById("rst"+pi).addEventListener("click",()=>{clearOv(P);refresh()});
+    document.getElementById("pw"+pi).addEventListener("change",e=>{P.pw=e.target.value===""?null:+e.target.value;refresh()});
+  });
+}
+const clearOv=P=>{if(US())P.ovus=null;else P.ovua=null;P.pw=null};
+function updatePeople(){
+  refs.forEach(f=>f());
+  R.forEach((r,pi)=>{
+    document.getElementById("psc"+pi).textContent=r.s.toFixed(0);
+    const inc=document.getElementById("inc"+pi);
+    if(document.activeElement!==inc)inc.value=r.over?r.inc:"";
+    inc.placeholder=r.base.inc;inc.classList.toggle("over",r.over);
+    document.getElementById("rst"+pi).hidden=!(r.over||r.pwOver);
+    const sel=document.getElementById("pw"+pi);
+    sel.innerHTML=`<option value="">${t("pwAuto")} (${r.base.pw})</option>`+t("pwOpts").map(o=>`<option value="${o[0]}">${o[1]}</option>`).join("");
+    sel.value=S.persons[pi].pw==null?"":String(S.persons[pi].pw);
+    if(sel.value===""&&S.persons[pi].pw!=null){S.persons[pi].pw=null}
+    sel.classList.toggle("over",r.pwOver);
+    const pct=pctOf(r.s);
+    document.getElementById("pbar"+pi).style.width=Math.max(2,pct)+"%";
+    document.getElementById("pmeta"+pi).innerHTML=`<span><b>${t("pctPeople").replace("{p}",pct)}</b></span><span>${money(r.inc)}</span><span class="chip"><i style="background:${pc(r.p)}"></i>${PILLARS[r.p].n[L()]}</span><span class="clchip" style="--kc:var(--k${clusterOf(r.s).i})">${clName(clusterOf(r.s).i)}</span>`;
+  });
+}
+
+/* ===== CLUSTERS ===== */
+const CLP=[0,.20,.50,.80,.95,.99,.999,1];
+const CLR=["0–20%","20–50%","50–80%","80–95%","95–99%","99–99.9%","0.1%"];
+let CL=[];
+function buildClusters(){
+  const arr=ITEMS.filter(x=>x.w>0).sort((a,b)=>a.s-b.s);let cum=0,k=1;const th=[0];
+  for(const x of arr){cum+=x.w;while(k<CLP.length-1&&cum/TOTAL>=CLP[k]){th.push(x.s);k++}}
+  while(th.length<CLP.length-1)th.push(100);
+  th.push(100);
+  CL=CLP.slice(0,-1).map((_,i)=>({i,lo:th[i],hi:Math.max(th[i],th[i+1])}));
+}
+const clusterOf=s=>{let c=CL[0];for(const b of CL)if(s>=b.lo&&b.hi>b.lo)c=b;return c};
+const clName=i=>t("cl")[i];
+const wsum=f=>ITEMS.filter(f).reduce((a,x)=>a+x.w,0);
+function needIncome(target,pw){ // base units: US $/yr, UA ₴/mo; null if impossible
+  if(S.W<.01)return null;
+  const need=(target-(1-S.W)*pw)/S.W;if(need>100)return null;
+  const [a,b]=RANGE[S.country];let v=Math.pow(10,a+Math.max(0,need)/100*(b-a));return US()?v:v/12;
+}
+
+/* ===== MAP ===== */
+let MOB=null;
+const LAY=()=>MOB
+ ?{VW:460,TOP:64,K:14,font:15,gap:17,trunc:34,sides:["R"],cx:{army:112,state:112,biz:112,ext:112},tagX:70,tagW:32,clX:4,clWrap:9,bandR:460}
+ :{VW:1760,TOP:92,K:12.5,font:13,gap:15,trunc:24,sides:["R","L"],cx:{army:280,state:660,biz:1040,ext:1420},tagX:22,tagW:54,clX:1622,clWrap:20,bandR:1606};
+const focusP=()=>S.focus||R[S.sel].p;
+const short=s=>s.replace(/\s*\([^)]*\)/g,"");
+const trunc=(s,n)=>s.length>n?s.slice(0,n-1)+"…":s;
+const starPts=(cx,cy,r)=>{let p=[];for(let k=0;k<10;k++){const a=-Math.PI/2+k*Math.PI/5,rr=k%2?r*.45:r;p.push((cx+rr*Math.cos(a)).toFixed(1)+","+(cy+rr*Math.sin(a)).toFixed(1))}return p.join(" ")};
+function wrap(s,n){const w=s.split(" "),out=[];let cur="";for(const x of w){if(cur&&(cur+" "+x).length>n){out.push(cur);cur=x}else cur=cur?cur+" "+x:x}if(cur)out.push(cur);return out}
+let YF=s=>0;
+function renderMap(){
+  const box=document.getElementById("chartBox"),mob=box.clientWidth>0&&box.clientWidth<760;
+  if(mob!==MOB){MOB=mob;document.getElementById("lp").innerHTML=""}
+  const Lc=LAY(),Y=s=>Lc.TOP+(100-s)*Lc.K,VH=Lc.TOP+100*Lc.K+28;YF=Y;
+  const svg=document.getElementById("chart");
+  svg.setAttribute("viewBox",`0 0 ${Lc.VW} ${VH}`);svg.style.minWidth=MOB?"0":"1180px";
+  svg.setAttribute("aria-label",t("h1").replace(/<[^>]+>/g,""));
+  document.getElementById("focus").hidden=!MOB;
+  document.getElementById("focus").innerHTML=ORDER.map(p=>`<button data-p="${p}" aria-pressed="${focusP()===p}"><i style="background:${pc(p)}"></i>${PILLARS[p].n[L()]}</button>`).join("");
+  document.getElementById("defs").innerHTML=ORDER.map(p=>`<linearGradient id="g-${p}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:${pc(p)}"/><stop offset="1" style="stop-color:${pc(p)};stop-opacity:.25"/></linearGradient>`).join("");
+  let g="";
+  // social clusters as full-width bands
+  CL.forEach(b=>{if(b.hi<=b.lo)return;const y1=Y(b.hi),y2=Y(b.lo),h=y2-y1,c=`var(--k${b.i})`;
+    g+=`<rect x="0" y="${y1}" width="${Lc.VW}" height="${h}" style="fill:${c}" opacity="${b.i%2?.11:.06}"/>`;
+    g+=`<line x1="0" x2="${Lc.VW}" y1="${y1}" y2="${y1}" style="stroke:${c}" stroke-opacity=".55" stroke-dasharray="4 4"/>`;
+    g+=`<rect x="${Lc.clX-4}" y="${y1+2}" width="4" height="${Math.max(0,h-4)}" rx="2" style="fill:${c}"/>`;
+    if(h>=(MOB?30:26)){const lines=wrap(clName(b.i),Lc.clWrap);const fs=MOB?12:12.5;
+      g+=`<text class="cln" x="${Lc.clX+4}" y="${y1+fs+4}" style="font-size:${fs}px;fill:${c}">${lines.map((l,k)=>`<tspan x="${Lc.clX+4}" dy="${k?fs+1:0}">${esc(l)}</tspan>`).join("")}<tspan class="clr" x="${Lc.clX+4}" dy="${fs+2}">${CLR[b.i]}</tspan></text>`}
+  });
+  if(!MOB)for(let s=0;s<=100;s+=10)g+=`<text class="gt" x="4" y="${Y(s)+4}">${s}</text>`;
+  const near=x=>R.findIndex(r=>Math.abs(r.s-x.s)<=2.2);
+  const shown=MOB?[focusP()]:ORDER;
+  for(const p of shown){
+    const it=ITEMS.filter(x=>x.p===p),fm=S.fam?FAM.filter(x=>x.p===p):[];
+    if(!it.length)continue;
+    const all=it.concat(fm).sort((a,b)=>b.s-a.s),cx=Lc.cx[p];
+    const top=Y(all[0].s)-16,bot=Y(all[all.length-1].s)+16;
+    const mx=Math.max(...it.map(x=>x.s)),mn=Math.min(...it.map(x=>x.s));
+    g+=`<rect x="${cx-8}" y="${top}" width="16" height="${bot-top}" rx="8" fill="url(#g-${p})"/>`;
+    g+=`<text class="ptitle" x="${cx}" y="${Math.max(18,top-26)}" text-anchor="${MOB?"start":"middle"}" fill="${pc(p)}" style="font-size:${MOB?15:13}px">${PILLARS[p].n[L()].toUpperCase()}</text>`;
+    g+=`<text class="psub" x="${cx}" y="${Math.max(32,top-10)}" text-anchor="${MOB?"start":"middle"}">${mn.toFixed(0)} → ${mx.toFixed(0)}</text>`;
+    for(const x of it){const y=Y(x.s);g+=`<line x1="${cx-14}" x2="${cx+14}" y1="${y}" y2="${y}" stroke="${pc(p)}" stroke-width="1.8" opacity=".75"/>`}
+    const prio=all.map(x=>({x,pr:near(x)>=0?0:x.fam?1:2,w:x.w})).sort((a,b)=>a.pr-b.pr||b.w-a.w);
+    const used={L:[],R:[]},fits=(side,y)=>!used[side].some(v=>Math.abs(v-y)<Lc.gap)&&y>top-4;
+    for(const {x} of prio){
+      const y=Y(x.s);let side=null,ly=y;
+      outer:for(const d of [0,-3,3,-6,6])for(const sd of Lc.sides)if(fits(sd,y+d)){side=sd;ly=y+d;break outer}
+      if(!side)continue;used[side].push(ly);
+      const r=side==="R",x0=r?cx+16:cx-16,x1=r?cx+22:cx-22,ni=near(x);
+      const st=`font-size:${Lc.font}px;${ni>=0?`fill:var(${PCOL[ni]})`:""}`;
+      g+=`<path d="M${x0} ${y} L${x1} ${ly}" stroke="${pc(p)}" stroke-opacity=".5" fill="none"/>`;
+      g+=`<text class="lbl${ni>=0?" hl":""}${x.fam?" fam":""}" style="${st}" x="${r?x1+3:x1-3}" y="${ly+Lc.font*.34}" text-anchor="${r?"start":"end"}" data-id="${x.id}">${esc(trunc(x.fam?"★ "+x.name:short(x.name),Lc.trunc))}</text>`;
+    }
+    for(const x of fm)g+=`<polygon points="${starPts(cx,Y(x.s),8)}" stroke="var(--surface)" stroke-width="1.5" data-id="${x.id}" style="fill:var(--star);cursor:pointer"/>`;
+    for(const x of it)g+=`<rect class="hit" x="${cx-16}" y="${Y(x.s)-3}" width="32" height="6" data-id="${x.id}"/>`;
+  }
+  document.getElementById("lb").innerHTML=g;
+  renderPersons(Lc,Y);
+}
+function renderPersons(Lc,Y){
+  const lp=document.getElementById("lp");
+  if(!lp.children.length){
+    const x0=MOB?0:Lc.tagX+Lc.tagW;
+    lp.innerHTML=PL.map((l,pi)=>`<g class="pm" id="band${pi}"><rect x="${x0}" y="${-Lc.K*1.4}" width="${Lc.bandR-x0}" height="${Lc.K*2.8}" style="fill:var(${PCOL[pi]})" opacity=".13"/><line x1="${x0}" x2="${Lc.bandR}" y1="0" y2="0" style="stroke:var(${PCOL[pi]})" stroke-width="1.8" stroke-dasharray="7 5"/><g id="tagw${pi}" data-person="${pi}" style="cursor:pointer"><rect x="${Lc.tagX}" y="-11" width="${Lc.tagW}" height="22" rx="7" style="fill:var(${PCOL[pi]})"/><text id="tagt${pi}" x="${Lc.tagX+Lc.tagW/2}" y="4" text-anchor="middle"></text></g></g>`).join("")+
+      PL.map((l,pi)=>`<g class="pm" id="mk${pi}" data-person="${pi}" style="cursor:pointer"><circle r="18" style="fill:var(${PCOL[pi]})" opacity=".22"/><circle r="12" style="fill:var(${PCOL[pi]});stroke:var(--surface)" stroke-width="3"/><text y="4" text-anchor="middle">${l}</text></g>`).join("");
+  }
+  const ys=R.map((r,pi)=>({pi,y:Y(r.s)})).sort((a,b)=>a.y-b.y);let last=-1e9;
+  ys.forEach(o=>{o.ty=Math.max(o.y,last+24);last=o.ty});
+  ys.forEach(o=>{const r=R[o.pi];
+    document.getElementById("band"+o.pi).style.transform=`translate(0px,${o.y}px)`;
+    document.getElementById("tagw"+o.pi).setAttribute("transform",`translate(0,${o.ty-o.y})`);
+    document.getElementById("tagt"+o.pi).textContent=MOB?PL[o.pi]:PL[o.pi]+" "+r.s.toFixed(0);
+    const same=R.filter((q,j)=>j<o.pi&&q.p===r.p&&Math.abs(q.s-r.s)<2.5).length;
+    const mk=document.getElementById("mk"+o.pi);
+    mk.style.transform=`translate(${Lc.cx[r.p]+same*26}px,${o.y}px)`;
+    mk.style.opacity=MOB&&r.p!==focusP()?0:1;
+  });
+}
+document.getElementById("focus").addEventListener("click",e=>{const b=e.target.closest("button");if(b){S.focus=b.dataset.p;refresh()}});
+if(window.ResizeObserver)new ResizeObserver(()=>{const w=document.getElementById("chartBox").clientWidth;if(w&&(w<760)!==MOB&&S.tab==="map")renderMap()}).observe(document.getElementById("chartBox"));
+// tooltip
+const tip=document.getElementById("tip"),box=document.getElementById("chartBox");let pinned=false;
+const find=id=>ITEMS.find(i=>i.id===id)||FAM.find(i=>i.id===id);
+function showTip(el,pin){
+  const x=find(el.dataset.id);if(!x)return;const cl=clusterOf(x.s);
+  tip.innerHTML=`<h4>${x.fam?"★ ":""}${esc(x.name)}</h4><div class="sub">${esc(x.indName)} · ${PILLARS[x.p].n[L()]}</div>
+   <div class="row"><span>${esc(money(x.inc))}</span><span>${t("pw")} ${x.pw}</span><span>${t("level")} ${x.s.toFixed(0)}</span></div>
+   <div class="row" style="color:var(--muted)">${t("incPts")} ${incIdx(ann(x.inc)).toFixed(0)} · ${t("pwPts")} ${x.pw}</div>
+   <div class="row" style="color:var(--muted)"><span style="color:var(--k${cl.i});font-weight:700">${clName(cl.i)}</span>${!x.fam?`<span>${t("cols")[6]}: ${ppl(x.w)}</span>`:""}</div>
+   ${pin&&!x.fam?`<div class="sub" style="margin-top:10px">${t("assign")}</div><div class="assign">${PL.map((l,pi)=>`<button data-pi="${pi}" style="background:var(${PCOL[pi]})">${l}</button>`).join("")}</div>`:""}`;
+  tip.hidden=false;tip.classList.toggle("pin",pin);tip.dataset.id=x.id;
+  const b=box.getBoundingClientRect(),e=el.getBoundingClientRect(),tw=Math.min(280,b.width-8);
+  let left=e.right-b.left+box.scrollLeft+10,top=e.top-b.top+box.scrollTop-12;
+  if(left+tw>box.scrollLeft+b.width)left=e.left-b.left+box.scrollLeft-tw-10;
+  if(left<box.scrollLeft+4)left=box.scrollLeft+4,top=e.bottom-b.top+box.scrollTop+8;
+  tip.style.left=left+"px";tip.style.top=Math.max(4,top)+"px";
+}
+const svgEl=document.getElementById("chart");
+svgEl.addEventListener("mouseover",e=>{if(pinned)return;const pp=e.target.closest("[data-person]");if(pp){showPTip(pp,false);return}const d=e.target.closest("[data-id]");if(d)showTip(d,false)});
+svgEl.addEventListener("mouseout",e=>{if(!pinned&&e.target.closest("[data-id],[data-person]"))tip.hidden=true});
+svgEl.addEventListener("click",e=>{const pp=e.target.closest("[data-person]");if(pp){pinned=true;showPTip(pp,true);e.stopPropagation();return}const d=e.target.closest("[data-id]");if(d){pinned=true;showTip(d,true);e.stopPropagation()}});
+function placeTip(el){
+  const b=box.getBoundingClientRect(),e=el.getBoundingClientRect(),tw=Math.min(300,b.width-8);
+  let left=e.right-b.left+box.scrollLeft+10,top=e.top-b.top+box.scrollTop-12;
+  if(left+tw>box.scrollLeft+b.width)left=e.left-b.left+box.scrollLeft-tw-10;
+  if(left<box.scrollLeft+4)left=box.scrollLeft+4,top=e.bottom-b.top+box.scrollTop+8;
+  tip.style.left=left+"px";tip.style.top=Math.max(4,top)+"px";
+}
+function showPTip(el,pin){
+  const pi=+el.dataset.person,r=R[pi],cl=clusterOf(r.s),ann0=ann(r.inc);
+  const others=R.map((q,j)=>({q,j})).filter(o=>o.j!==pi).map(({q,j})=>{
+    const d=r.s-q.s,ratio=ann0/ann(q.inc);
+    return `<div class="cmprow"><span class="dotb" style="--pcol:var(${PCOL[j]})">${PL[j]}</span><span class="nm">${esc(pname(j))}<small>${esc(q.base.name)} · ${q.s.toFixed(0)}</small></span><span class="mono" style="color:${Math.abs(d)<1?"var(--muted)":d>0?"var(--pc)":"var(--pa)"};font-weight:800">${Math.abs(d)<1?"=":(d>0?"+":"")+d.toFixed(1)}</span><span class="mono cmut">${t("incX")} ×${+ratio.toFixed(2)}</span></div>`}).join("");
+  tip.innerHTML=`<div style="display:flex;align-items:center;gap:8px;--pcol:var(${PCOL[pi]})"><span class="dotb">${PL[pi]}</span><h4>${esc(pname(pi))}</h4></div>
+   <div class="sub">${esc(r.base.name)} · ${esc(r.base.indName)}</div>
+   <div class="row"><span>${esc(money(r.inc))}</span><span>${t("pw")} ${r.pw}</span><span>${t("level")} ${r.s.toFixed(1)}</span></div>
+   <div class="row"><span class="clchip" style="--kc:var(--k${cl.i})">${clName(cl.i)}</span><span style="color:var(--muted)">${t("pctPeople").replace("{p}",pctOf(r.s))}</span></div>
+   <p class="eyebrow" style="margin:10px 0 4px">${t("vsOthers")}</p>${others}`;
+  tip.hidden=false;tip.classList.toggle("pin",pin);delete tip.dataset.id;placeTip(el);
+}
+tip.addEventListener("click",e=>{const b=e.target.closest("button[data-pi]");if(!b)return;const x=find(tip.dataset.id);const P=S.persons[+b.dataset.pi];
+  P.ind=x.ind;P.i=x.i;clearOv(P);S.sel=+b.dataset.pi;pinned=false;tip.hidden=true;refresh()});
+document.addEventListener("click",e=>{if(pinned&&!tip.contains(e.target)){pinned=false;tip.hidden=true}});
+
+/* ===== LADDER ===== */
+function chips(cur,key){return `<div class="pchips" data-key="${key}">${PL.map((l,pi)=>`<button style="--pcol:var(${PCOL[pi]})" aria-pressed="${cur===pi}" data-pi="${pi}"><span class="dotb">${l}</span><span>${esc(pname(pi))}</span></button>`).join("")}</div>`}
+const rung=(x,d)=>`<div class="rung" title="${esc(x.name)}"><i style="background:${pc(x.p)}"></i><span>${x.fam?"★ ":""}${esc(x.name)} <small>· ${esc(x.indName)}</small></span><em>${d>0?"+":""}${d.toFixed(1)}</em></div>`;
+function renderLadder(){
+  const pi=S.sel,r=R[pi],pool=ITEMS.concat(S.fam?FAM:[]).filter(x=>x.id!==r.base.id);
+  const up=pool.filter(x=>x.s>r.s).sort((a,b)=>a.s-b.s).slice(0,6).reverse();
+  const dn=pool.filter(x=>x.s<=r.s).sort((a,b)=>b.s-a.s).slice(0,6);
+  const shelf=ORDER.filter(p=>p!==r.p).map(p=>ITEMS.filter(x=>x.p===p).sort((a,b)=>Math.abs(a.s-r.s)-Math.abs(b.s-r.s))[0]).filter(Boolean);
+  document.getElementById("ladder").innerHTML=`<p class="eyebrow">${t("ladderT")}</p>${chips(pi,"sel")}
+   <div class="ladder" style="--pcol:var(${PCOL[pi]})"><p class="eyebrow" style="margin:2px 0">${t("above")}</p>${up.map(x=>rung(x,x.s-r.s)).join("")}
+     <div class="rung me"><i style="background:var(--pcol)"></i><span>${esc(pname(pi))} <small>· ${esc(r.base.name)}</small></span><em>${r.s.toFixed(1)}</em></div>
+     <p class="eyebrow" style="margin:6px 0 2px">${t("below")}</p>${dn.map(x=>rung(x,x.s-r.s)).join("")}</div>
+   <p class="eyebrow">${t("shelf")}</p>
+   <div class="shelf">${shelf.map(x=>`<div style="border-color:color-mix(in srgb,${pc(x.p)} 40%,var(--line))"><span class="pt" style="color:${pc(x.p)}">${PILLARS[x.p].n[L()]}</span><b>${esc(x.name)}</b><small>${esc(money(x.inc))} · ${x.s.toFixed(0)}</small></div>`).join("")}</div>`;
+}
+document.addEventListener("click",e=>{const b=e.target.closest(".pchips button");if(!b)return;const key=b.parentElement.dataset.key;S[key]=+b.dataset.pi;if(key==="sel")S.focus=null;refresh()});
+
+/* ===== COMPARISON ===== */
+function renderCompare(){
+  const N=ITEMS.length,cols=R.map((r,pi)=>{
+    const below=wsum(x=>x.s<r.s-1),above=wsum(x=>x.s>r.s+1),same=Math.max(0,TOTAL-below-above);
+    const cl=clusterOf(r.s),nx=CL.slice(cl.i+1).find(b=>b.hi>b.lo);
+    const annual=US()?r.inc:r.inc*12,monthly=US()?r.inc/12:r.inc;
+    let next=`<span class="cmut">${t("cmpTop")}</span>`;
+    if(nx){const ni=needIncome(nx.lo+.1,r.pw);next=`<b style="color:var(--k${nx.i})">${clName(nx.i)}</b><br><span class="cmut">+${(nx.lo-r.s).toFixed(1)} · ${ni==null?t("cmpPw"):"≈ "+money(ni)}</span>`}
+    return {r,pi,below,above,same,cl,annual,monthly,next,rank:ITEMS.filter(x=>x.s>r.s).length+1};
+  });
+  const pct=v=>Math.round(100*v/TOTAL)+"%";
+  const rowsDef=[
+    ["position",c=>`<b>${esc(c.r.base.name)}</b><br><span class="cmut">${esc(c.r.base.indName)}</span>`],
+    ["pillar",c=>`<span class="chip"><i style="background:${pc(c.r.p)}"></i>${PILLARS[c.r.p].n[L()]}</span>`],
+    ["incM",c=>`<span class="mono">${money(c.monthly,true)}</span>${c.r.over?` <span class="cmut">(${t("own")})</span>`:""}`],
+    ["incY",c=>`<span class="mono">${money(c.annual,true)}</span>`],
+    ["power",c=>`<span class="mono">${c.r.pw}</span>`],
+    ["points",c=>`<span class="mono">${incIdx(ann(c.r.inc)).toFixed(0)} · ${c.r.pw}</span>`],
+    ["level",c=>`<div style="display:flex;align-items:center;gap:8px"><b class="mono" style="color:var(${PCOL[c.pi]})">${c.r.s.toFixed(1)}</b><div class="bar" style="flex:1;min-width:60px"><span style="width:${c.r.s}%;background:var(${PCOL[c.pi]})"></span></div></div>`],
+    ["cluster",c=>`<span class="clchip" style="--kc:var(--k${c.cl.i})">${clName(c.cl.i)}</span>`],
+    ["split",c=>`<div class="split"><span style="width:${100*c.below/TOTAL}%;background:var(${PCOL[c.pi]})"></span><span style="width:${100*c.same/TOTAL}%;background:color-mix(in srgb,var(${PCOL[c.pi]}) 40%,transparent)"></span><span style="width:${100*c.above/TOTAL}%;background:var(--line)"></span></div>`],
+    ["cooler",c=>`<b class="mono" style="font-size:16px">${pct(c.below)}</b> <span class="cmut">· ${ppl(c.below)}</span>`],
+    ["sameLvl",c=>`<span class="mono">${pct(c.same)}</span> <span class="cmut">· ${ppl(c.same)}</span>`],
+    ["simpler",c=>`<span class="mono">${pct(c.above)}</span> <span class="cmut">· ${ppl(c.above)}</span>`],
+    ["holders",c=>`<span class="mono">${ppl(c.r.base.w)}</span>`],
+    ["rank",c=>`<span class="mono">#${c.rank}</span> <span class="cmut">${t("of")} ${N}</span>`],
+    ["next",c=>c.next],
+    ["vsA",c=>c.pi===0?`<span class="cmut">—</span>`:(()=>{const d=c.r.s-cols[0].r.s,ri=c.annual/cols[0].annual;return `<b class="mono" style="color:${d>=0?"var(--pc)":"var(--pa)"}">${d>=0?"+":""}${d.toFixed(1)}</b> <span class="cmut">· ${t("incX")} ×${(+ri.toFixed(2))}</span>`})()]
+  ];
+  const lab=t("cmpRows");
+  document.getElementById("cmp").innerHTML=`<p class="eyebrow">${t("cmpT")}</p><div class="cscroll"><table class="ctab"><thead><tr><th></th>${cols.map(c=>`<th style="--pcol:var(${PCOL[c.pi]})"><span class="dotb">${PL[c.pi]}</span> ${esc(pname(c.pi))}</th>`).join("")}</tr></thead>
+   <tbody>${rowsDef.map(([k,f])=>`<tr><th scope="row">${lab[k].replace("{a}",esc(pname(0)))}</th>${cols.map(c=>`<td>${f(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
+   <p class="note">${t("cmpNote")}</p>`;
+}
+
+/* ===== RANKING ===== */
+function renderRank(){
+  document.getElementById("q").placeholder=t("search");
+  document.getElementById("pf").innerHTML=ORDER.map(p=>`<button class="fchip" data-p="${p}" aria-pressed="${!!S.pf[p]}"><i style="width:9px;height:9px;border-radius:3px;background:${pc(p)}"></i>${PILLARS[p].n[L()]}</button>`).join("");
+  document.getElementById("thead").innerHTML="<tr>"+t("cols").map(c=>`<th>${c}</th>`).join("")+"</tr>";
+  const q=document.getElementById("q").value.trim().toLowerCase();
+  const rows=ITEMS.concat(S.fam?FAM:[]).map(x=>({...x,tags:R.map((r,pi)=>r.base.id===x.id&&!r.over&&!r.pwOver?pi:-1).filter(v=>v>=0)}));
+  R.forEach((r,pi)=>{if(r.over||r.pwOver)rows.push({...r,name:pname(pi)+" · "+r.base.name,tags:[pi],w:0,me:true})});
+  rows.sort((a,b)=>b.s-a.s);
+  document.getElementById("tbody").innerHTML=rows.map((x,k)=>({x,k})).filter(({x})=>S.pf[x.p]&&(!q||x.tags.length||x.name.toLowerCase().includes(q)||x.indName.toLowerCase().includes(q))).map(({x,k})=>{
+    const tg=x.tags[0];
+    return `<tr class="${x.tags.length?"hitrow":""}" ${x.tags.length?`style="--pcol:var(${PCOL[tg]})"`:""}><td class="num">${k+1}</td><td>${x.tags.map(pi=>`<span class="ptag" style="background:var(${PCOL[pi]})">${PL[pi]}</span>`).join("")}${x.fam?"★ ":""}<b style="font-weight:${x.tags.length||x.fam?800:500}">${esc(x.name)}</b></td><td style="color:var(--muted)">${esc(x.indName)}</td>
+     <td><span class="chip"><i style="background:${pc(x.p)}"></i>${PILLARS[x.p].n[L()]}</span></td><td class="num">${esc(money(x.inc))}</td><td class="num">${x.pw}</td><td class="num">${x.fam||x.me?"—":ppl(x.w)}</td>
+     <td><div style="display:flex;align-items:center;gap:8px"><span class="num" style="width:24px">${x.s.toFixed(0)}</span><div class="bar" style="flex:1"><span style="width:${x.s}%;background:${pc(x.p)}"></span></div></div></td></tr>`}).join("");
+}
+document.getElementById("pf").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;S.pf[b.dataset.p]=S.pf[b.dataset.p]?0:1;refresh()});
+document.getElementById("q").addEventListener("input",()=>renderRank());
+
+/* ===== CAREER ===== */
+let simRef=null;
+function buildSim(){
+  document.getElementById("simCtl").innerHTML=`<div><p class="eyebrow" style="margin-bottom:6px">${t("simWho")}</p><div id="simChips"></div></div>
+   <div style="--pcol:var(--ink)"><label class="flabel" for="simIn">${t("simTo")}</label><div class="combo" id="simCombo"><input id="simIn" autocomplete="off" role="combobox"><ul role="listbox" hidden></ul></div></div>
+   <div><p class="eyebrow" style="margin-bottom:6px">${t("simQuick")}</p><div class="quick" id="simQuick"></div></div>`;
+  simRef=combo(document.getElementById("simCombo"),{ph:t("simPick"),label:()=>(ITEMS.find(x=>x.id===S.simT)||{}).name||"",opts:q=>posOpts(q,null),pick:v=>{S.simT=v;refresh()}});
+  document.getElementById("simQuick").addEventListener("click",e=>{const b=e.target.closest("button[data-id]");if(b){S.simT=b.dataset.id;refresh()}});
+}
+function renderSim(){
+  if(!ITEMS.find(x=>x.id===S.simT))S.simT=ITEMS.slice().sort((a,b)=>b.s-a.s)[20].id;
+  simRef&&simRef();
+  const pi=S.simP,r=R[pi],tg=ITEMS.find(x=>x.id===S.simT);
+  document.getElementById("simChips").innerHTML=chips(pi,"simP");
+  const same=ITEMS.filter(x=>x.ind===r.base.ind&&x.s>r.s+1).sort((a,b)=>a.s-b.s).slice(0,3);
+  const other=ORDER.filter(p=>p!==r.p&&p!=="ext").map(p=>ITEMS.filter(x=>x.p===p&&x.s>r.s+3).sort((a,b)=>a.s-b.s)[0]).filter(Boolean);
+  document.getElementById("simQuick").innerHTML=same.concat(other).map(x=>`<button data-id="${x.id}" style="--pcol:${pc(x.p)}"><span class="chip"><i style="background:${pc(x.p)}"></i>${esc(x.name)}</span></button>`).join("");
+  const d=tg.s-r.s,c=`var(${PCOL[pi]})`;
+  let out=`<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span class="badge" style="--pcol:${c}">${PL[pi]}</span><b style="font-size:16px">${esc(r.base.name)}</b><span style="color:var(--muted)">→</span><span class="chip" style="font-size:16px"><i style="background:${pc(tg.p)}"></i>${esc(tg.name)}</span></div>`;
+  if(Math.abs(d)<1){out+=`<p class="note">${t("simSame")}</p>`}
+  else if(d<0){out+=`<p class="note">${t("simDown")}</p>`}
+  else{
+    const lo=r.s,hi=tg.s,between=ITEMS.filter(x=>x.s>lo&&x.s<hi).reduce((a,x)=>a+x.w,0);
+    const ratio=tg.inc/r.inc;
+    const need=(hi-(1-S.W)*r.pw)/S.W;let needTxt;
+    if(need>100)needTxt=t("simNeedNo");else{const [a,b]=RANGE[S.country];let v=Math.pow(10,a+Math.max(0,need)/100*(b-a));if(!US())v/=12;needTxt=t("simNeedOk").replace("{v}","<b>"+money(v)+"</b>")}
+    out+=`<div class="kpis">
+      <div class="kpi"><small>${t("simGap")}</small><b style="color:${c}">+${d.toFixed(1)}</b><small>${r.s.toFixed(0)} → ${hi.toFixed(0)}</small></div>
+      <div class="kpi"><small>${t("simInc")}</small><b>${money(tg.inc,true)}</b><small>${ratio>=1?"×"+(+ratio.toFixed(1))+" "+t("simX"):""}</small></div>
+      <div class="kpi"><small>${t("pw")}</small><b>${r.pw} → ${tg.pw}</b><small>${PILLARS[tg.p].n[L()]}</small></div>
+      <div class="kpi"><small>${t("simPpl")}</small><b>${ppl(between)}</b><small>${Math.round(100*between/TOTAL)}%</small></div></div>
+     <div><p class="eyebrow">${t("simNeed")}</p><p class="note" style="margin-top:4px">${needTxt}</p></div>`;
+    let steps=ITEMS.filter(x=>x.ind===tg.ind&&x.s>lo+.5&&x.s<hi-.5);
+    if(steps.length<2)steps=steps.concat(ITEMS.filter(x=>x.p===tg.p&&x.ind!==tg.ind&&x.s>lo+.5&&x.s<hi-.5).sort((a,b)=>b.w-a.w).slice(0,4));
+    steps.sort((a,b)=>a.s-b.s);
+    if(steps.length>6){const k=steps.length/5;steps=[0,1,2,3,4].map(i=>steps[Math.floor(i*k)])}
+    const seq=[{x:r.base,me:true,s:r.s}].concat(steps.map(x=>({x,s:x.s}))).concat([{x:tg,s:tg.s,goal:true}]);
+    out+=`<div><p class="eyebrow" style="margin-bottom:6px">${t("simPath")}</p><div class="path">${seq.map((o,k)=>`<div class="step"><span class="nd" style="background:${o.me?c:pc(o.x.p)}">${o.me?PL[pi]:o.s.toFixed(0)}</span><div><b>${esc(o.me?pname(pi):o.x.name)}</b><small>${esc(o.me?r.base.name:o.x.indName)}</small></div><em>${esc(money(o.me?r.inc:o.x.inc))}</em></div>`).join("")}</div></div>`;
+  }
+  document.getElementById("simOut").innerHTML=out;
+}
+
+/* ===== ABOUT ===== */
+function renderAbout(){document.getElementById("v-about").innerHTML=`<section class="disc"><h3>${t("discT")}</h3>${t("disc").map(p=>`<p>${p}</p>`).join("")}</section>`+t("about").map(([h,p])=>`<section><h3>${h}</h3><p>${p}</p></section>`).join("")}
+
+/* ===== WIRING ===== */
+function staticText(){
+  document.documentElement.lang=S.lang==="uk"?"uk":"en";
+  document.title=t("logo");
+  document.getElementById("t-logo").textContent=t("logo");
+  document.getElementById("t-h1").innerHTML=t("h1");
+  document.getElementById("t-lede").textContent=t("lede");
+  document.getElementById("t-money").textContent=t("money");
+  document.getElementById("t-wq").textContent=t("wq");
+  document.getElementById("wpre").innerHTML=t("wPre").map(([v,l])=>`<button data-v="${v}">${l}</button>`).join("");
+  document.getElementById("fdisc").textContent=t("fdisc");
+  document.getElementById("t-power").textContent=t("power");
+  document.getElementById("t-fam").textContent=t("fam");
+  document.getElementById("famT").checked=S.fam;
+  document.querySelectorAll("#tabs button").forEach((b,i)=>{b.textContent=t("tabs")[i];b.setAttribute("aria-selected",b.dataset.tab===S.tab)});
+  const sc=document.querySelectorAll("#segCountry button");sc[0].textContent=t("us");sc[1].textContent=t("ua");
+  sc.forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===S.country));
+  document.querySelectorAll("#segLang button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===S.lang));
+  document.getElementById("legend").innerHTML=ORDER.map(p=>`<span class="chip"><i style="background:${pc(p)}"></i>${PILLARS[p].n[L()]}</span>`).join("")+`<span class="chip"><i style="background:var(--star);border-radius:50%"></i>${t("fam")}</span>`;
+  ["map","rank","career","about"].forEach(v=>document.getElementById("v-"+v).hidden=S.tab!==v);
+  document.getElementById("people").hidden=S.tab!=="map";
+  document.getElementById("w").value=Math.round(S.W*100);
+}
+function refresh(){
+  build();
+  R=S.persons.map((_,pi)=>resolve(pi));
+  updatePeople();
+  if(S.tab==="map"){renderW();renderMap();renderLadder();renderCompare()}
+  else if(S.tab==="rank")renderRank();
+  else if(S.tab==="career")renderSim();
+  else renderAbout();
+  save();
+}
+function full(){build();staticText();buildPeople();buildSim();refresh()}
+document.getElementById("segCountry").addEventListener("click",e=>{const b=e.target.closest("button");if(b){S.country=b.dataset.v;full()}});
+document.getElementById("segLang").addEventListener("click",e=>{const b=e.target.closest("button");if(b){S.lang=b.dataset.v;full()}});
+document.getElementById("tabs").addEventListener("click",e=>{const b=e.target.closest("button");if(b){S.tab=b.dataset.tab;staticText();refresh()}});
+document.getElementById("famT").addEventListener("change",e=>{S.fam=e.target.checked;refresh()});
+document.getElementById("w").addEventListener("input",e=>{S.W=e.target.value/100;refresh()});
+document.getElementById("wpre").addEventListener("click",e=>{const b=e.target.closest("button");if(b){S.W=+b.dataset.v/100;document.getElementById("w").value=b.dataset.v;refresh()}});
+function renderW(){
+  const m=Math.round(S.W*100),pw=100-m,pi=S.sel,r=R[pi],ii=incIdx(ann(r.inc));
+  document.querySelectorAll("#wpre button").forEach(b=>b.setAttribute("aria-pressed",+b.dataset.v===m));
+  const [a,b]=RANGE[S.country],lo=Math.pow(10,a),hi=Math.pow(10,b),per=100/(b-a);
+  const loS=US()?money(lo):money(lo/12),hiS=US()?money(hi):money(hi/12);
+  document.getElementById("wf").innerHTML=`<div>${t("wFormula").replace("{m}",m).replace("{p}",pw)}</div>
+   <div class="cmut">${t("wScale").replace("{lo}",loS).replace("{hi}",hiS).replace("{per}",per.toFixed(0))}</div>
+   <div class="wex" style="--pcol:var(${PCOL[pi]})"><span class="dotb">${PL[pi]}</span> ${esc(pname(pi))}: <span class="mono">${(m/100).toFixed(2)} × ${ii.toFixed(0)}</span> <span class="cmut">(${t("incPts")}, ${esc(money(r.inc))})</span> <span class="mono">+ ${(pw/100).toFixed(2)} × ${r.pw}</span> <span class="cmut">(${t("pwPts")})</span> <span class="mono">= <b style="color:var(--pcol)">${(S.W*ii+(1-S.W)*r.pw).toFixed(1)}</b></span>${r.base.apex&&r.s>S.W*ii+(1-S.W)*r.pw+.05?` <span class="cmut">→ <b class="mono">${r.s.toFixed(1)}</b> (${t("apexNote")})</span>`:""}</div>`;
+}
+full();
+</script>
+
+</body>
+</html>
